@@ -1,0 +1,47 @@
+/*
+	@description 圆形展示百分比css样式
+	@author sam_wiki
+	@date 2016-02-23
+*/
+.circle_percent {
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	border-radius: 50%;
+	background: #0cc;
+}
+.circle_pie_left, .circle_pie_right {
+	width:200px;
+	height:200px;
+	position: absolute;
+	top: 0;left: 0;
+}
+.circle_left, .circle_right {
+	width:200px;
+	height:200px;
+	background:#E0E0E0;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.circle_pie_right, .circle_right {
+	clip:rect(0,auto,auto,100px);
+}
+.circle_pie_left, .circle_left {
+	clip:rect(0,100px,auto,0);
+}
+.mask {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	left: 25px;
+	top: 25px;
+	background: #FFF;
+	position: absolute;
+	text-align: center;
+	line-height: 150px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #00aacc;
+}

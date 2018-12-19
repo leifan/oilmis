@@ -1,0 +1,275 @@
+
+<div class="container">
+	<div class="row">
+		<!-- <div class = "row" id="content" class="col-lg-12"> -->
+			<!-- <form class="form-horizontal" role="form">
+				<fieldset>
+					<legend></legend>
+				</fieldset>
+				<div class="form-group">
+					<label class="col-sm-1 control-label"
+						for="filter_districtName_selection">区域名称</label>
+					<div class="col-sm-2">
+						<select id="filter_districtName_selection"
+							class="selectpicker form-control"></select>
+					</div>
+
+					<label class="col-sm-1 control-label"
+						for="filter_oilStationName_selection">油站名称</label>
+					<div class="col-sm-2">
+						<select id="filter_oilStationName_selection"
+							class="selectpicker form-control"></select>
+					</div>
+					<a class="btn btn-primary" onclick="javascript:getOilCanList(1)">点击查询</a>
+					<a class="btn btn-primary btn-danger"
+						onclick="javascript:getOilCanList(2)">查看全部</a>
+				</div>
+			</form> -->
+			<fieldset>
+				<legend></legend>
+			</fieldset>
+			<!--表单-->
+			<div class="row">
+				<div id="groupOilCanList" class="col-md-12"></div>
+			</div>
+		<!-- /CALENDAR & CHAT -->
+		<div class="footer-tools">
+			<span class="go-top"> <i class="fa fa-chevron-up"></i> Top
+			</span>
+		</div>
+	</div>
+</div>
+<script>
+
+	//加载油罐列表列表
+	$(document).ready(function() {
+		getOilCanListAjax();
+	});
+
+	//展示方式为图片加表格
+	function getOilCanList(type) {
+		var districtName = document.getElementById("filter_districtName_selection").value;
+		var oilStationName = document.getElementById("filter_oilStationName_selection").value;
+		var getOilCanListRequest = "districtName=" + districtName
+				+ "&oilStationName=" + oilStationName;
+		getOilCanListAjax(districtName, oilStationName, type);
+	}
+
+	/**type =1 带参数查询 type =2 全部*/
+	function getOilCanListAjax(districtName, oilStationName, type) {
+		var getOilCanListRequest = "";
+		if ((typeof (districtName) != "undefined" && districtName != "")
+				&& (typeof (oilStationName) != "undefined" && oilStationName != "")) {
+			var getOilCanListRequest = "districtName=" + districtName
+					+ "&oilStationName=" + oilStationName;
+		} else {
+			var getOilCanListRequest = "";
+		}
+
+		if (type == 2) {
+			var getOilCanListRequest = "";
+		}
+
+		$.ajax({
+				type : "GET",
+				url : "../../user/oil/getOilCanList",
+				timeout : 20000,
+				contentType : "application/x-www-form-urlencoded",
+				data : getOilCanListRequest,
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					switch (data.retCode) {
+					case 200:
+						var str = '';
+						var volumnPercent = 0;
+						var imgSrc;
+
+						jQuery.each(data.list,function(i, item) {
+
+							volumnPercent = (item.liquidLevel / item.oilCanVolumn).toFixed(3) * 100;
+							imgSrc = getImgSrc(volumnPercent);
+
+							str += "<div class='col-md-6'>"
+								+ "<div class='panel panel-default'>"
+								+ "<div class='panel-body'>"
+								+ "<table class='table table-bordered table-hover'>"
+								+ "<tbody>" + "<tr>"
+								+ "<th>罐号</th>"
+								+ "<td><font color='red'>"
+								+ item.oilCanName
+								+ "</font></td>"
+								+ "<th>油品</th>"
+								+ "<td><font color='red'>"
+								+ item.oilProductName
+								+ "</font></td>"
+								+ "<th>空容积</th>"
+								+ "<td>"
+								+ item.emptyCapacity
+								+ "升</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<td rowspan='4' colspan='4' align='center'>"
+								+ "<img src='" + imgSrc + "'>"
+								+ "</td>"
+								+ "<th>油高</th>"
+								+ "<td>"
+								+ item.liquidLevel
+								+ "毫米</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<th>油体积</th>"
+								+ "<td>"
+								+ item.netOilCapacity
+								+ "升</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<th>水高</th>"
+								+ "<td>"
+								+ item.waterLevel
+								+ "毫米</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<th>油温度</th>"
+								+ "<td>"
+								+ item.shiTemperate
+								+ "<tr>"
+								+ "<td col
+								span='4' align='center'>"
+								+ "已用容量"
+								+ volumnPercent
+								+ "%"
+								+ "</td>"
+								+ "<th>报警状态</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+								+ "</tr>"
+								+ "</tbody>"
+								+ "</table>"
+								+ "</div>"
+								+ "</div>" + "</div>";
+						});
+						$("#groupOilCanList").html(str);
+						break;
+					default:
+						alert(data.retDesc);
+						break;
+					}
+				},
+				error : function(data) {
+						//                alert("页面提交出错，错误信息为：" + data);
+				}
+			});
+
+	}
+
+	/* var districtList = new Array();
+	$(document).ready(function() {
+						$.ajax({
+									type : "GET",
+									url : "../user/oil/getDistrictList",
+									timeout : 20000,
+									contentType : "application/x-www-form-urlencoded",
+									dataType : "json",
+									success : function(data) {
+										switch (data.retCode) {
+										case 200:
+											var str = '';
+											jQuery.each(data.list,
+															function(i, item) {
+																str += "<option value='" + item.districtName + "'>"
+																		+ item.districtName
+																		+ "</option>";
+																districtList
+																		.push(item.districtName);
+															});
+
+											$("#districtName_selection").html(str);
+											$("#filter_districtName_selection").html(str);
+											$("#update_districtName_selection").html(str);
+											break;
+										default:
+											alert(data.retDesc);
+											break;
+										}
+									},
+									error : function(data) {
+										//                alert("页面提交出错，错误信息为：" + data);
+									}
+
+								});
+
+					});
+	//展示油站的条件是首先根据筛选的区域名称，再筛选对应的站点名称
+	//用户点击分两种(1) 显示点击区域后选择站点(2)先点击站点后点击区域，针对(2)需要提示用户首先选择区域再选择站点
+	var oilStationList = new Array();
+	$(document).ready(function() {
+		$.ajax({
+			type : "GET",
+									url : "../user/oil/getOilStationList",
+									timeout : 20000,
+									contentType : "application/x-www-form-urlencoded",
+									dataType : "json",
+									success : function(data) {
+										switch (data.retCode) {
+										case 200:
+											var str = '';
+											jQuery.each(
+															data.list,
+															function(i, item) {
+																str += "<option value='" + item.stationName + "'>"
+																		+ item.stationName
+																		+ "</option>";
+																oilStationList.push(item.stationName);
+															});
+
+											$("#oilStationName_selection").html(str);
+											$("#filter_oilStationName_selection").html(str);
+											$("#update_oilStationName_selection").html(str);
+											break;
+										default:
+											alert(data.retDesc);
+											break;
+										}
+									},
+									error : function(data) {
+										//                alert("页面提交出错，错误信息为：" + data);
+									}
+
+								});
+					}); */
+
+	/**
+	 * 获取图片位置信息
+	 */
+	function getImgSrc(volumnPercent) {
+
+		if (volumnPercent <= 0) {
+			return "img/oilCanVolumn/oilcan_0.png";
+		} else if (volumnPercent > 0 && volumnPercent <= 10) {
+			return "img/oilCanVolumn/oilcan_10.png";
+		} else if (volumnPercent > 10 && volumnPercent <= 20) {
+			return "img/oilCanVolumn/oilcan_20.png";
+		} else if (volumnPercent > 20 && volumnPercent <= 30) {
+			return "img/oilCanVolumn/oilcan_30.png";
+		} else if (volumnPercent > 30 && volumnPercent <= 40) {
+			return "img/oilCanVolumn/oilcan_40.png";
+		} else if (volumnPercent > 40 && volumnPercent <= 50) {
+			return "img/oilCanVolumn/oilcan_50.png";
+		} else if (volumnPercent > 50 && volumnPercent <= 60) {
+			return "img/oilCanVolumn/oilcan_60.png";
+		} else if (volumnPercent > 60 && volumnPercent <= 70) {
+			return "img/oilCanVolumn/oilcan_70.png";
+		} else if (volumnPercent > 70 && volumnPercent <= 80) {
+			return "img/oilCanVolumn/oilcan_80.png";
+		} else if (volumnPercent > 80 && volumnPercent <= 90) {
+			return "img/oilCanVolumn/oilcan_90.png";
+		} else if (volumnPercent > 90 && volumnPercent < 99) {
+			return "img/oilCanVolumn/oilcan_90.png";
+		} else {
+			return "img/oilCanVolumn/oilcan_100.png";
+		}
+
+	}
+</script>

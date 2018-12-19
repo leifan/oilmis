@@ -1,0 +1,505 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>brite管理系统</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="stylesheet" type="text/css" href="css/cloud-admin.css">
+<link rel="stylesheet" type="text/css" href="css/themes/default.css"
+	id="skin-switcher">
+<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<link rel="stylesheet" type="text/css" href="css/circle.percent.css">
+<!-- STYLESHEETS -->
+<!--[if lt IE 9]>
+    <script src="js/flot/excanvas.min.js"></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- ANIMATE -->
+<link rel="stylesheet" type="text/css"
+	href="css/animatecss/animate.min.css" />
+
+
+<!-- GRITTER -->
+</head>
+<body>
+	<!--/HEADER -->
+		<div class="container">
+			<div class="row">
+				<div id="content" class="col-lg-12">
+					<form class="form-horizontal" role="form">
+						<fieldset>
+							<legend></legend>
+						</fieldset>
+						<div class="form-group">
+							<label class="col-sm-1 control-label"
+								for="filter_districtName_selection">区域名称</label>
+							<div class="col-sm-2">
+								<select id="filter_districtName_selection"
+									class="selectpicker form-control"></select>
+							</div>
+
+							<label class="col-sm-1 control-label"
+								for="filter_oilStationName_selection">油站名称</label>
+							<div class="col-sm-2">
+								<select id="filter_oilStationName_selection"
+									class="selectpicker form-control"></select>
+							</div>
+							<a class="btn btn-primary" onclick="javascript:getOilCanList()">点击查询</a>
+							<a class="btn btn-primary btn-danger"
+								onclick="javascript:getOilCanList()">查看全部</a>
+						</div>
+					</form>
+					<fieldset>
+						<legend></legend>
+					</fieldset>
+					<!--表单-->
+					<div class="row">
+						<div id="groupOilCanList" class="col-md-12"></div>
+					</div>
+				</div>
+				<!-- /CALENDAR & CHAT -->
+				<div class="footer-tools">
+					<span class="go-top"> <i class="fa fa-chevron-up"></i> Top
+					</span>
+				</div>
+			</div>
+		</div>
+	<!-- JQUERY -->
+	<script src="js/jquery/jquery-2.0.3.min.js"></script>
+	<!-- JQUERY UI-->
+	<script
+		src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<!-- BOOTSTRAP -->
+	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
+
+
+	<!-- DATE RANGE PICKER -->
+	<script src="js/bootstrap-daterangepicker/moment.min.js"></script>
+
+	<script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+	<!-- SLIMSCROLL -->
+	<script type="text/javascript"
+		src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+	<!-- SLIMSCROLL -->
+	<script type="text/javascript"
+		src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+	<script type="text/javascript"
+		src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+	<!-- BLOCK UI -->
+	<script type="text/javascript"
+		src="js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+	<!-- SPARKLINES -->
+	<script type="text/javascript"
+		src="js/sparklines/jquery.sparkline.min.js"></script>
+	<!-- EASY PIE CHART -->
+	<script src="js/jquery-easing/jquery.easing.min.js"></script>
+	<script type="text/javascript"
+		src="js/easypiechart/jquery.easypiechart.min.js"></script>
+	<!-- FLOT CHARTS -->
+	<script src="js/flot/jquery.flot.min.js"></script>
+	<script src="js/flot/jquery.flot.time.min.js"></script>
+	<script src="js/flot/jquery.flot.selection.min.js"></script>
+	<script src="js/flot/jquery.flot.resize.min.js"></script>
+	<script src="js/flot/jquery.flot.pie.min.js"></script>
+	<script src="js/flot/jquery.flot.stack.min.js"></script>
+	<script src="js/flot/jquery.flot.crosshair.min.js"></script>
+	<!-- TODO -->
+	<!-- TIMEAGO -->
+	<script type="text/javascript" src="js/timeago/jquery.timeago.min.js"></script>
+	<!-- FULL CALENDAR -->
+	<script type="text/javascript"
+		src="js/fullcalendar/fullcalendar.min.js"></script>
+	<!-- COOKIE -->
+	<script type="text/javascript"
+		src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+
+	<!--展示百分比插件-->
+	<script type="text/javascript" src="js/circle_percent.js"></script>
+	<script type="text/javascript" src="js/jquery.progress.js"></script>
+	<!--<script type="text/javascript" src="js/Context.js"></script>-->
+	<!-- CUSTOM SCRIPT -->
+	<script src="js/script.js"></script>
+	<script>
+		jQuery(document).ready(function() {
+			//        getUserInfo();
+			App.setPage("index2"); //Set current page
+			App.init(); //Initialise plugins and elements
+			$('#myStathalf3').circliful();
+
+		});
+
+		$(function() {
+			$('.piechart').easyPieChart({
+				lineWidth : 5,
+				animate : 1000,
+				barColor : "#00FF00"//绿色,写代码对于超过90%容量的设置为红色
+			});
+		});
+
+		var progress = $("#container").Progress({
+			percent : 20,
+			width : 180,
+			height : 40,
+			fontSize : 16
+		});
+
+		//获取群管列表，初始方法加载
+		//    $(document).ready(function () {
+		//        $.ajax({
+		//            type: "GET",
+		//            url: "../user/oil/getOilCanList",
+		//            timeout: 20000,
+		//            contentType: "application/x-www-form-urlencoded",
+		//            dataType: "json",
+		//            success: function (data) {
+		//                switch (data.retCode) {
+		//                    case 200:
+		//                        var str = '';
+		//                        jQuery.each(data.list, function (i, item) {
+		//                            str += "<option value='" + item.districtName + "'>" + item.districtName + "</option>";
+		//                            districtList.push(item.districtName);
+		//                        });
+		//
+		//                        $("#districtName_selection").html(str);
+		//                        $("#filter_districtName_selection").html(str);
+		//                        $("#update_districtName_selection").html(str);
+		//                        break;
+		//                    default:
+		//                        alert(data.retDesc);
+		//                        break;
+		//                }
+		//            },
+		//            error: function (data) {
+		//                alert("页面提交出错，错误信息为：" + data);
+		//            }
+		//
+		//        });
+		//    });
+
+		//展示方式仅仅为表格
+		//    function getOilCanList() {
+		//        var districtName = document.getElementById("filter_districtName_selection").value;
+		//        var oilStationName = document.getElementById("filter_oilStationName_selection").value;
+		//        var getStaffListRequest = "districtName=" + districtName + "&oilStationName=" + oilStationName;
+		//
+		//        $.ajax({
+		//            type: "GET",
+		//            url: "../user/oil/getOilCanList",
+		//            timeout: 20000,
+		//            contentType: "application/x-www-form-urlencoded",
+		//            data: getStaffListRequest,
+		//            dataType: "json",
+		//            async: false,
+		//            success: function (data) {
+		//                switch (data.retCode) {
+		//                    case 200:
+		//                        var str = '';
+		//
+		//                        jQuery.each(data.list, function (i, item) {
+		//                            str += "<tr>"
+		//                                    + "<td><input class='radio' type='radio' name='oilTypeRadio' id='oilTypeRadio_item.id' onclick='editStationStaff(this)'/></td>"
+		//                                    + "<td name='id' style='display: none'>" + item.id + "</td>"
+		//                                    + "<td name='districtName'>" + item.districtName + "</td>"
+		//                                    + "<td name='oilStationName'>" + item.oilStationName + "</td>"
+		//                                    + "<td name='staffId'>" + item.staffId + "</td>"
+		//                                    + "<td name='staffName'>" + item.staffName + "</td>"
+		//                                    + "<td name='staffType'>" + item.staffType + "</td>"
+		//                                    + "<td name='tel'>" + item.tel + "</td>"
+		//                                    + "<td name='phone'>" + item.phone + "</td>"
+		//                                    + "<td onclick='deleteOilTypeModal(this)'>" + '删除' + "</td>"
+		//                                    + "</tr>";
+		//                        });
+		//                        $("#stationStaffListTable tbody").html(str);
+		//                        break;
+		//                    default:
+		//                        alert(data.retDesc);
+		//                        break;
+		//                }
+		//            },
+		//            error: function (data) {
+		//                alert("页面提交出错，错误信息为：" + data);
+		//            }
+		//
+		//        });
+		//    }
+
+		//加载油罐列表列表
+		$(document).ready(function() {
+			getOilCanListAjax();
+		});
+
+		//展示方式为图片加表格
+		function getOilCanList() {
+			var districtName = document
+					.getElementById("filter_districtName_selection").value;
+			var oilStationName = document
+					.getElementById("filter_oilStationName_selection").value;
+			var getOilCanListRequest = "districtName=" + districtName
+					+ "&oilStationName=" + oilStationName;
+			getOilCanListAjax(districtName, oilStationName);
+		}
+
+		function getOilCanListAjax(districtName, oilStationName) {
+			var getOilCanListRequest = "";
+			if ((typeof (districtName) != "undefined" && districtName != "")
+					&& (typeof (oilStationName) != "undefined" && oilStationName != "")) {
+				var getOilCanListRequest = "districtName=" + districtName
+						+ "&oilStationName=" + oilStationName;
+			} else {
+				var getOilCanListRequest = "";
+			}
+
+			$
+					.ajax({
+						type : "GET",
+						url : "../user/oil/getOilCanList",
+						timeout : 20000,
+						contentType : "application/x-www-form-urlencoded",
+						data : getOilCanListRequest,
+						dataType : "json",
+						async : false,
+						success : function(data) {
+							switch (data.retCode) {
+							case 200:
+								var str = '';
+								var volumnPercent = 0;
+								var imgSrc;
+
+								jQuery
+										.each(
+												data.list,
+												function(i, item) {
+
+													volumnPercent = (item.liquidLevel / item.oilCanVolumn)
+															.toFixed(3) * 100;
+													imgSrc = getImgSrc(volumnPercent);
+
+													str += "<div class='col-md-6'>"
+															+ "<div class='panel panel-default'>"
+															+ "<div class='panel-body'>"
+															+ "<table class='table table-bordered table-hover'>"
+															+ "<tbody>"
+															+ "<tr>"
+															+ "<th>罐号</th>"
+															+ "<td>"
+															+ item.oilCanName
+															+ "</td>"
+															+ "<th>油品</th>"
+															+ "<td>"
+															+ item.oilProductName
+															+ "</td>"
+															+ "<th>报警状态</th>"
+															+ "<td>"
+															+ item.alarmStatus
+															+ "</td>"
+															+ "</tr>"
+															+ "<tr>"
+															+ "<td rowspan='6' colspan='4' align='center'>"
+															+ "<img src='" + imgSrc + "'>"
+															+ "</td>"
+															+ "<th>罐高(mm)</th>"
+															+ "<td>"
+															+ item.oilCanVolumn
+															+ "</td>"
+															+ "</tr>"
+															+ "<tr>"
+															+ "<th>液位(mm)</th>"
+															+ "<td>"
+															+ item.liquidLevel
+															+ "</td>"
+															+ "</tr>"
+															+ "<tr>"
+															+ "<th>水位(mm)</th>"
+															+ "<td>"
+															+ item.waterLevel
+															+ "</td>"
+															+ "</tr>"
+															+ "<tr>"
+															+ "<th>视温度(℃)</th>"
+															+ "<td>"
+															+ item.shiTemperate
+															+ "</td>"
+															+ "</tr>"
+															+ "<tr>"
+															+ "<th>净油体积(M3)</th>"
+															+ "<td>"
+															+ item.netOilCapacity
+															+ "</td>"
+															+ "</tr>"
+															+ "<tr>"
+															+ "<th>净油质量(Kg)</th>"
+															+ "<td>"
+															+ item.netOilQuality
+															+ "</td>"
+															+ "</tr>"
+															+ "<tr>"
+															+ "<td colspan='4' align='center'>"
+															+ "已用容量"
+															+ volumnPercent
+															+ "%"
+															+ "</td>"
+															+ "<th>储罐状态</th>"
+															+ "<td>"
+															+ item.oilCanStatus
+															+ "</td>"
+															+ "</tr>"
+															+ "</tbody>"
+															+ "</table>"
+															+ "</div>"
+															+ "</div>"
+															+ "</div>";
+												});
+								$("#groupOilCanList").html(str);
+								break;
+							default:
+								alert(data.retDesc);
+								break;
+							}
+						},
+						error : function(data) {
+							//                alert("页面提交出错，错误信息为：" + data);
+						}
+					});
+
+		}
+
+		var districtList = new Array();
+		$(document)
+				.ready(
+						function() {
+							$
+									.ajax({
+										type : "GET",
+										url : "../user/oil/getDistrictList",
+										timeout : 20000,
+										contentType : "application/x-www-form-urlencoded",
+										dataType : "json",
+										success : function(data) {
+											switch (data.retCode) {
+											case 200:
+												var str = '';
+												jQuery
+														.each(
+																data.list,
+																function(i,
+																		item) {
+																	str += "<option value='" + item.districtName + "'>"
+																			+ item.districtName
+																			+ "</option>";
+																	districtList
+																			.push(item.districtName);
+																});
+
+												$("#districtName_selection")
+														.html(str);
+												$(
+														"#filter_districtName_selection")
+														.html(str);
+												$(
+														"#update_districtName_selection")
+														.html(str);
+												break;
+											default:
+												alert(data.retDesc);
+												break;
+											}
+										},
+										error : function(data) {
+											//                alert("页面提交出错，错误信息为：" + data);
+										}
+
+									});
+
+						});
+		//展示油站的条件是首先根据筛选的区域名称，再筛选对应的站点名称
+		//用户点击分两种(1) 显示点击区域后选择站点(2)先点击站点后点击区域，针对(2)需要提示用户首先选择区域再选择站点
+		var oilStationList = new Array();
+		$(document)
+				.ready(
+						function() {
+							$
+									.ajax({
+										type : "GET",
+										url : "../user/oil/getOilStationList",
+										timeout : 20000,
+										contentType : "application/x-www-form-urlencoded",
+										dataType : "json",
+										success : function(data) {
+											switch (data.retCode) {
+											case 200:
+												var str = '';
+												jQuery
+														.each(
+																data.list,
+																function(i,
+																		item) {
+																	str += "<option value='" + item.stationName + "'>"
+																			+ item.stationName
+																			+ "</option>";
+																	oilStationList
+																			.push(item.stationName);
+																});
+
+												$("#oilStationName_selection")
+														.html(str);
+												$(
+														"#filter_oilStationName_selection")
+														.html(str);
+												$(
+														"#update_oilStationName_selection")
+														.html(str);
+												break;
+											default:
+												alert(data.retDesc);
+												break;
+											}
+										},
+										error : function(data) {
+											//                alert("页面提交出错，错误信息为：" + data);
+										}
+
+									});
+
+						});
+
+		/**
+		 * 获取图片位置信息
+		 */
+		function getImgSrc(volumnPercent) {
+
+			if (volumnPercent <= 0) {
+				return "img/oilCanVolumn/oilcan_0.png";
+			} else if (volumnPercent > 0 && volumnPercent <= 10) {
+				return "img/oilCanVolumn/oilcan_10.png";
+			} else if (volumnPercent > 10 && volumnPercent <= 20) {
+				return "img/oilCanVolumn/oilcan_20.png";
+			} else if (volumnPercent > 20 && volumnPercent <= 30) {
+				return "img/oilCanVolumn/oilcan_30.png";
+			} else if (volumnPercent > 30 && volumnPercent <= 40) {
+				return "img/oilCanVolumn/oilcan_40.png";
+			} else if (volumnPercent > 40 && volumnPercent <= 50) {
+				return "img/oilCanVolumn/oilcan_50.png";
+			} else if (volumnPercent > 50 && volumnPercent <= 60) {
+				return "img/oilCanVolumn/oilcan_60.png";
+			} else if (volumnPercent > 60 && volumnPercent <= 70) {
+				return "img/oilCanVolumn/oilcan_70.png";
+			} else if (volumnPercent > 70 && volumnPercent <= 80) {
+				return "img/oilCanVolumn/oilcan_80.png";
+			} else if (volumnPercent > 80 && volumnPercent <= 90) {
+				return "img/oilCanVolumn/oilcan_90.png";
+			} else if (volumnPercent > 90 && volumnPercent < 99) {
+				return "img/oilCanVolumn/oilcan_90.png";
+			} else {
+				return "img/oilCanVolumn/oilcan_100.png";
+			}
+
+		}
+	</script>
+
+</body>
+</html>

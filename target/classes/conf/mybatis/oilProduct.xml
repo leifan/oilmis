@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OilProduct">
+
+	<resultMap id="BaseResultMap" type="OilProduct">
+		<id column="id" jdbcType="DECIMAL" property="id" />
+		<result column="oil_product_code" jdbcType="VARCHAR" property="oilProductCode" />
+		<result column="oil_product_name" jdbcType="VARCHAR" property="oilProductName" />
+		<result column="oil_type_name" jdbcType="VARCHAR" property="oilTypeName" />
+		<result column="oil_color" jdbcType="VARCHAR" property="oilColor" />
+		<result column="oil_product_name_for_outer" jdbcType="VARCHAR" property="oilProductNameForOuter" />
+		<result column="density" jdbcType="VARCHAR" property="density" />
+		
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updater" jdbcType="VARCHAR" property="updater" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+	</resultMap>
+	
+	<select id = "findEntityByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from tb_oil_product 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null" >
+				id = #{id}
+			</if>
+			<if test="oilProductCode != null" >
+				and oil_product_code = #{oilProductCode}
+			</if>
+			<if test="oilProductName != null" >
+				and oil_product_name = #{oilProductName}
+			</if>
+			<if test="oilTypeName != null" >
+				and oil_type_name = #{oilTypeName}
+			</if>
+			<if test="oilColor != null" >
+				and oil_color = #{oilColor}
+			</if>
+			<if test="oilProductNameForOuter != null" >
+				and oil_product_name_for_outer = #{oilProductNameForOuter}
+			</if>
+		</trim>
+	</select>
+	
+	<insert id="addEntity" parameterType="java.util.Map" >
+		insert into tb_oil_product
+		(oil_product_code,oil_product_name,oil_type_name,oil_color,oil_product_name_for_outer,density,creator,create_time,updater,update_time)
+		values(#{oilProductCode},#{oilProductName},#{oilTypeName},#{oilColor},#{oilProductNameForOuter},#{density},#{creator},#{createTime},#{updater},#{updateTime})
+	</insert>
+	
+	<update id="updateEntityById" parameterType="java.util.Map">
+	
+		update tb_oil_product
+		<trim prefix="set" prefixOverrides=",">
+			<if test="oilProductCode != null" >
+				, oil_product_code = #{oilProductCode}
+			</if>
+			<if test="oilProductName != null" >
+				, oil_product_name = #{oilProductName}
+			</if>
+			<if test="oilTypeName != null" >
+				, oil_type_name = #{oilTypeName}
+			</if>
+			<if test="oilColor != null" >
+				, oil_color = #{oilColor}
+			</if>
+			<if test="oilProductNameForOuter != null" >
+				, oil_product_name_for_outer = #{oilProductNameForOuter}
+			</if>
+			<if test="density != null" >
+				, density = #{density}
+			</if>
+			<if test="updater != null" >
+				, updater = #{updater}
+			</if>
+			<if test="updateTime != null" >
+				, update_time = #{updateTime}
+			</if>
+		</trim>
+		where id =#{id}
+	</update>
+	
+	<delete id="deleteEntityById" parameterType="java.util.Map">
+	
+		delete from tb_oil_product 
+		where id=#{id}
+		limit 1
+		
+	</delete>
+	
+</mapper>

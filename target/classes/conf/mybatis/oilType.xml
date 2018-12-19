@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OilType">
+
+	<resultMap id="BaseResultMap" type="OilType">
+		<id column="id" jdbcType="DECIMAL" property="id" />
+		<result column="oil_type_code" jdbcType="VARCHAR" property="oilTypeCode" />
+		<result column="oil_type_name" jdbcType="VARCHAR" property="oilTypeName" />
+		
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updater" jdbcType="VARCHAR" property="updater" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+	</resultMap>
+	
+	<select id = "findEntityByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from tb_oil_type 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null" >
+				id = #{id}
+			</if>
+			<if test="oilTypeCode != null" >
+				and oil_type_code = #{oilTypeCode}
+			</if>
+			<if test="oilTypeName != null" >
+				and oil_type_name = #{oilTypeName}
+			</if>
+		</trim>
+	</select>
+	
+	<insert id="addEntity" parameterType="java.util.Map" >
+		insert into tb_oil_type
+		(oil_type_code,oil_type_name,creator,create_time,updater,update_time)
+		values(#{oilTypeCode},#{oilTypeName},#{creator},#{createTime},#{updater},#{updateTime})
+	</insert>
+	
+	<update id="updateEntityById" parameterType="java.util.Map">
+	
+		update tb_oil_type
+		<trim prefix="set" prefixOverrides=",">
+			<if test="oilTypeCode != null" >
+				, oil_type_code = #{oilTypeCode}
+			</if>
+			<if test="oilTypeName != null" >
+				, oil_type_name = #{oilTypeName}
+			</if>
+			<if test="updater != null" >
+				, updater = #{updater}
+			</if>
+			<if test="updateTime != null" >
+				, update_time = #{updateTime}
+			</if>
+		</trim>
+		where id =#{id}
+	</update>
+	
+	<delete id="deleteEntityById" parameterType="java.util.Map">
+	
+		delete from tb_oil_type 
+		where id=#{id}
+		limit 1
+		
+	</delete>
+	
+</mapper>

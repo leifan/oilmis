@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SimpleUserModel">
+
+    <resultMap id="BaseResultMap" type="SimpleUserModel">
+        <id column="id" jdbcType="DECIMAL" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="district_name" jdbcType="VARCHAR" property="districtName"/>
+        <result column="permission" jdbcType="VARCHAR" property="permission"/>
+        <result column="last_log_in_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+		<result column="last_log_in_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+
+    </resultMap>
+
+    <select id="findEntityListByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from tb_simple_user
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=DECIMAL}
+            </if>
+            <if test="userName != null">
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null">
+                and password = #{password,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="findEntityById" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select id,user_name,password,district_name,group_name,department_name,role,create_time,last_log_in_ip,last_log_in_time from tb_simple_user
+  	where id = #{id,jdbcType=DECIMAL} 
+  </select>
+
+    <update id="updateEntity" parameterType="SimpleUserModel">
+        update tb_simple_user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="permission != null">
+                permission = #{permission,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                last_log_in_ip = #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                last_log_in_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <trim prefix="where" prefixOverrides="and">
+        	<if test="id != null">
+        		and id = #{id}
+        	</if>
+        </trim>
+    </update>
+
+    <insert id="addEntity" parameterType="java.util.Map">
+    insert into tb_simple_user
+    (group_name,user_name,password,create_time,permission)
+    values(#{groupName},#{userName},#{password},#{createTime},#{role})
+	</insert>
+	
+	<delete id="deleteEntity" parameterType="SimpleUserModel">
+        delete from tb_simple_user where id = #{id}
+    </delete>
+    
+    <select id="findEntityByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+    
+    	select id,user_name,password,permission
+    	from tb_simple_user 
+    	<trim prefix="where" prefixOverrides="and|or">
+    		<if test="userName != null">
+    			and user_name = #{userName,jdbcType=VARCHAR}
+    		</if>
+    		<if test="password != null">
+    			and password = #{password,jdbcType=VARCHAR}
+    		</if>
+    	</trim>
+    
+    </select>
+
+</mapper>

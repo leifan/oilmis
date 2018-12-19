@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OilCan">
+
+	<resultMap id="BaseResultMap" type="OilCan">
+		<id column="id" jdbcType="DECIMAL" property="id" />
+		<result column="oil_can_code" jdbcType="VARCHAR" property="oilCanCode" />
+		<result column="oil_can_name" jdbcType="VARCHAR" property="oilCanName" />
+		<result column="oil_can_type" jdbcType="VARCHAR" property="oilCanType" />
+		<result column="oil_product_name" jdbcType="VARCHAR" property="oilProductName" />
+		<result column="district_name" jdbcType="VARCHAR" property="districtName" />
+		<result column="station_code" jdbcType="VARCHAR" property="stationCode" />
+		<result column="station_name" jdbcType="VARCHAR" property="stationName" />
+		<result column="station_real_code" jdbcType="VARCHAR" property="stationRealCode" />
+		<result column="oil_can_height" jdbcType="VARCHAR" property="oilCanHeight" />
+		<result column="oil_can_volumn" jdbcType="VARCHAR" property="oilCanVolumn" />
+		<result column="liquid_level" jdbcType="VARCHAR" property="liquidLevel" />
+		<result column="water_level" jdbcType="VARCHAR" property="waterLevel" />
+		<result column="averge_temperate" jdbcType="VARCHAR" property="avergeTemperate" />
+		<result column="shi_temperate" jdbcType="VARCHAR" property="shiTemperate" />
+		<result column="shi_density" jdbcType="VARCHAR" property="shiDensity" />
+		<result column="net_oil_capacity" jdbcType="VARCHAR" property="netOilCapacity" />
+		<result column="water_capacity" jdbcType="VARCHAR" property="waterCapacity" />
+		<result column="empty_capacity" jdbcType="VARCHAR" property="emptyCapacity" />
+		<result column="net_oil_quality" jdbcType="VARCHAR" property="netOilQuality" />
+		<result column="oil_can_status" jdbcType="VARCHAR" property="oilCanStatus" />
+		<result column="check_time" jdbcType="VARCHAR" property="checkTime" />
+		<result column="alarm_status" jdbcType="VARCHAR" property="alarmStatus" />
+
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updater" jdbcType="VARCHAR" property="updater" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+	</resultMap>
+
+	<select id="findEntityListByCond" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select * from tb_oil_can
+		<trim prefix="where" prefixOverrides="and|or">
+
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="oilCanCode != null">
+				and oil_can_code=#{oilCanCode}
+			</if>
+			<if test="oilCanName != null">
+				and oil_can_name=#{oilCanName}
+			</if>
+			<if test="oilCanType != null">
+				and oil_can_type=#{oilCanType}
+			</if>
+			<if test="oilProductName != null">
+				and oil_product_name=#{oilProductName}
+			</if>
+			<if test="districtName != null">
+				and district_name=#{districtName}
+			</if>
+			<if test="stationCode != null">
+				and station_code=#{stationCode}
+			</if>
+			<if test="stationName != null">
+				and station_name=#{stationName}
+			</if>
+			<if test="stationRealCode != null">
+				and station_real_code=#{stationRealCode}
+			</if>
+			<if test="alarmStatus != null">
+				and alarmStatus=#{alarmStatus}
+			</if>
+		</trim>
+	</select>
+
+	<insert id="addEntity" parameterType="java.util.Map">
+		insert into tb_oil_can
+		(oil_can_code,
+		oil_can_name,
+		oil_can_type,
+		oil_product_name,
+		district_name,
+		station_name,
+		station_real_code,
+		oil_can_height,
+		oil_can_volumn,
+		oil_can_status,
+		check_time,
+		create_time,
+		creator,
+		update_time,
+		updater)
+		
+		values(
+		
+		#{oilCanCode},
+		#{oilCanName},
+		#{oilCanType},
+		#{oilProductName},
+		#{districtName},
+		#{stationName},
+		#{stationRealCode},
+		#{oilCanHeight},
+		#{oilCanVolumn},
+		#{oilCanStatus},
+		#{checkTime},
+		#{createTime},
+		#{creator},
+		#{updateTime},
+		#{updater})
+		
+	</insert>
+	
+	<update id="updateEntityById" parameterType="java.util.Map" >
+	
+		update tb_oil_can
+		<trim prefix="set" prefixOverrides=",">
+			<if test="oilCanCode!= null">
+				,oil_can_code = #{oilCanCode}
+			</if>
+			<if test="oilCanName != null">
+				,oil_can_name =#{oilCanName}
+			</if>
+			<if test="oilCanType != null">
+				,oil_can_type =#{oilCanType}
+			</if>
+			<if test="oilProductName != null">
+				,oil_product_name =#{oilProductName}
+			</if>
+			<if test="districtName != null">
+				,district_name =#{districtName}
+			</if>
+			<if test="stationName != null">
+				,station_name =#{stationName}
+			</if>
+			<if test="stationRealCode != null">
+				,station_real_code =#{stationRealCode}
+			</if>
+			<if test="updateTime != null">
+				,update_time =#{updateTime}
+			</if>
+			<if test="updater != null">
+				,updater =#{updater}
+			</if>
+		</trim>
+		where id =#{id}
+	</update>
+	<delete id="deleteEntityById" parameterType="java.util.Map">
+	
+		delete from tb_oil_can 
+		where id =#{id}
+		limit 1
+		
+	</delete>
+</mapper>

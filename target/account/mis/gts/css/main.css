@@ -1,0 +1,20 @@
+/*悬浮按钮*/
+.side-bar {
+	width: 66px;
+	position: fixed;
+	bottom: 20px;
+	right: 25px;
+	font-size: 0;
+	line-height: 0;
+	background-image:url("/mis/img/back_to_home.png");
+	background-repeat:no-repeat;
+	z-index: 100;
+}
+
+.side-bar a {
+	width: 66px;
+	height: 66px;
+	display: inline-block;
+	/* background-color: #ddd; */
+	margin-bottom: 2px;
+}

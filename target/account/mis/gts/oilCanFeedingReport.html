@@ -1,0 +1,267 @@
+<meta http-equiv="cache-control" content="max-age">
+<div class="container">
+	<div class="row">
+		<form class="form-horizontal" role="form">
+			<fieldset>
+				<legend></legend>
+			</fieldset>
+			<div class="form-group">
+				<label class="col-sm-1 control-label" for="beginTime">开始时间</label>
+				<div class="col-sm-2">
+					<input class="form-control" id="beginTime" type="text"/>
+				</div>
+
+				<label class="col-sm-1 control-label" for="endTime">结束时间</label>
+				<div class="col-sm-2">
+					<input class="form-control" id="endTime" type="text"/>
+				</div>
+
+				<a class="btn btn-danger" onclick="javascript:searchRecord()">点击查询</a>
+			</div>
+		</form>
+	</div>
+
+	<div class="row">
+		<fieldset>
+			<legend></legend>
+		</fieldset>
+		<div class="row ">
+			<div class="col-md-4">
+				<div class="box border pink">
+					<div class="box-title">
+						<h4>
+							<i class="fa fa-table"></i>进油列表
+						</h4>
+					</div>
+
+					<div class="box-body">
+						<table id="oilCanFeedingListTable" class="table table-striped table-hover ">
+							<thead>
+								<tr>
+									<th></th>
+									<th>罐号</th>
+									<th>油品名称</th>
+									<th>起始日期</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-8">
+				<div class="box border pink">
+					<div class="box-title">
+						<h4>
+							<i class="fa fa-table"></i>起始终止详情
+						</h4>
+					</div>
+
+					<div class="box-body">
+						<table id="oilCanFeedingDetailTable" class="table table-striped table-hover ">
+							<thead>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+		<!-- SIMPLE STRIPED -->
+		<div class="separator"></div>
+		<div class="footer-tools">
+			<span class="go-top"> <i class="fa fa-chevron-up"></i> Top
+			</span>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	function getOilCanFeedingList(requestData) {
+		
+		jQuery.ajax({
+					url : "../../user/oil/getOilCanFeedingList",
+					data : requestData,
+					contentType : "application/x-www-form-urlencoded",
+					dataType : "json",
+					success : function(response) {
+						switch (response.retCode) {
+						case 200:
+							var str = "";
+		                    jQuery.each(response.list,function(i,item){
+		                    	str +="<tr>"
+		                    		/* + "<td><input class='radio' type='radio' onchange='SenFe_Code(this,\""+i+"\")' onclick='getOilCanFeedingDetail(\""+item.id+"\")'/></td>" */
+		                    		+ "<td><input class='radio' type='radio' name='oilTypeRadio' id='oilTypeRadio_item.id' onclick='getOilCanFeedingDetail(\""+item.id+"\")'/></td>"
+		                    		+ "<td>"+item.oilCanName+"</td>"
+		                    		+ "<td>"+item.oilProductName+"</td>"
+		                    		+ "<td>"+item.createTime+"</td>"
+		                    		+"</tr>";
+		                    });
+		                    jQuery("#oilCanFeedingListTable tbody").html(str);
+							break;
+						default:
+							alert(response.retDesc);
+						}
+					},
+					error : function(response) {
+						alert("获取数据失败，请稍后重试");
+					}
+				});
+
+	}
+
+	/* function initDateTimePicker() {
+		jQuery("#beginTime").datetimepicker({
+			format : 'yyyy-mm-dd',
+			minView : 'month',
+			autoclose : true,
+			language : 'zh-cn',
+			lang : "ch",
+			todayHighlight : true
+		});
+		jQuery("#endTime").datetimepicker({
+			format : 'yyyy-mm-dd',
+			minView : 'month',
+			autoclose : true,
+			language : 'zh-cn',
+			lang : "ch",
+			todayHighlight : true
+		});
+		jQuery("#feedingTime").datetimepicker({
+			format : 'yyyy-mm-dd hh:ii:ss',
+			minView : 'hour',
+			autoclose : true,
+			language : 'zh-cn',
+			lang : "ch",
+			todayHighlight : true
+		});
+	} */
+
+	function searchRecord() {
+
+		var beginTime = jQuery.trim(document.getElementById("beginTime").value);
+		var endTime = jQuery.trim(document.getElementById("endTime").value);
+
+		if (beginTime.length == 0) {
+			alert("请选择开始时间");
+			return;
+		}
+
+		if (endTime.length == 0) {
+			alert("请选择结束时间");
+			return;
+		}
+
+		if (beginTime >= endTime) {
+			alert("开始时间不能大于等于结束时间");
+			return;
+		}
+
+		var requestData = '';
+		requestData = {
+			beginTime : beginTime,
+			endTime : endTime,
+		}
+
+		getOilCanFeedingList(requestData);
+
+	}
+
+	function getOilCanFeedingDetail(id){
+		oilCanFeedingDetailAjax(id);
+	}
+	
+	function oilCanFeedingDetailAjax(id){
+		
+		var request = "id="+id;
+		jQuery.ajax({
+					url : "../../user/oil/gts/getOilCanFeedingDetail",
+					data : request,
+					contentType : "application/x-www-form-urlencoded",
+					dataType : "json",
+					success : function(response) {
+						switch (response.retCode) {
+						case 200:
+							var str = '';
+							var item = response.detail;
+							
+							str += "<tr>"
+								+		"<th>罐号</th>"
+								+		"<td>"+item.oilCanName+"</td>"
+								+		"<th>油品</th>"
+								+		"<td>"+item.oilCanName+"</td>"
+								+ "</tr>"
+								+		"<tr>"
+								+			"<th>起始时间</th>"
+								+			"<td>"+item.startTime+"</td>"
+								+			"<th>终止时间</th>"
+								+			"<td>"+item.endTime+"</td>"
+								+  "</tr>"
+								+  "<tr>"
+								+			"<th>起始液位</th>"
+								+			"<td>"+item.startLiquidLevel+"</td>"
+								+			"<th>终止液位</th>"
+								+			"<td>"+item.stopLiquidLevel+"</td>"	
+								+	"</tr>"
+								+	"<tr>"
+								+			"<th>起始水位</th>"
+								+			"<td>"+item.startWaterLevel+"</td>"
+								+			"<th>终止水位</th>"
+								+			"<td>"+item.stopWaterLevel+"</td>"
+								+	"</tr>"
+								+		"<tr>"
+								+			"<th>起始油体积</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>终止油体积</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+		"</tr>"
+								+		"<tr>"
+								+			"<th>起始水体积</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>终止水体积</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+		"</tr>"	
+								+		"<tr>"
+								+			"<th>起始V20</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>终止V20</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+		"</tr>"
+								+		"<tr>"
+								+			"<th>罐收体积</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>罐收V20</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+		"</tr>";	
+							
+							jQuery("#oilCanFeedingDetailTable tbody").html(str);	
+							break;
+						default:
+							alert("获取详情信息失败");
+							break;
+						}
+					}
+				});
+	}
+	
+	/* 一组单选按钮控制 */
+	function SenFe_Code(sname,sid){ 
+	    if(sname.checked){ 
+	        /* sid.style.display="block";  */
+	        sname.style.display="block";
+	    }else{ 
+	        /* sid.style.display="none";  */
+	        sname.style.display="none";
+	    } 
+	} 
+	
+</script>
+
+
+   

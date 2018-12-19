@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <typeAliases>
+   <typeAlias type="com.mltech.brite.model.DepartmentType" alias="DepartmentType"/>
+   <typeAlias type="com.mltech.brite.model.DistrictType" alias="DistrictType"/>
+   <typeAlias type="com.mltech.brite.model.OilCan" alias="OilCan"/>
+   <typeAlias type="com.mltech.brite.model.OilStation" alias="OilStation"/>
+   <typeAlias type="com.mltech.brite.model.OilStationStaff" alias="OilStationStaff"/>
+   <typeAlias type="com.mltech.brite.model.OilType" alias="OilType"/>
+   <typeAlias type="com.mltech.brite.model.UserModel" alias="UserModel"/>
+   <typeAlias type="com.mltech.brite.model.OilProduct" alias="OilProduct"/>
+   <typeAlias type="com.mltech.brite.model.OilCanFeeding" alias="OilCanFeeding"/>
+   <typeAlias type="com.mltech.brite.model.UserGroup" alias="UserGroup"/>
+   <typeAlias type="com.mltech.brite.model.ShiftWork" alias="ShiftWork"/>
+   <typeAlias type="com.mltech.brite.model.SimpleUserModel" alias="SimpleUserModel"/>
+   <typeAlias type="com.mltech.brite.model.GtsOilCanAlarm" alias="GtsOilCanAlarm"/>
+   <typeAlias type="com.mltech.brite.model.OilCanCom" alias="OilCanCom"/>
+  </typeAliases>
+
+  <mappers>
+    <mapper resource="conf/mybatis/userModel.xml"/>
+    <mapper resource="conf/mybatis/departmentType.xml"/>
+    <mapper resource="conf/mybatis/districtType.xml"/>
+    <mapper resource="conf/mybatis/oilCan.xml"/>
+    <mapper resource="conf/mybatis/oilStation.xml"/>
+    <mapper resource="conf/mybatis/oilStationStaff.xml"/>
+    <mapper resource="conf/mybatis/oilType.xml"/>
+    <mapper resource="conf/mybatis/oilProduct.xml"/>
+    <mapper resource="conf/mybatis/oilCanFeeding.xml"/>
+    <mapper resource="conf/mybatis/userGroup.xml"/>
+    <mapper resource="conf/mybatis/shiftWork.xml"/>
+    <mapper resource="conf/mybatis/simpleUserModel.xml"/>
+    <mapper resource="conf/mybatis/oilCanAlarm.xml"/>
+    <mapper resource="conf/mybatis/oilCanCom.xml"/>
+  </mappers>
+</configuration>

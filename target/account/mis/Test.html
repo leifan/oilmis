@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <title>出票失败列表</title>
+    <link rel="stylesheet" href="${rc.contextPath}/resources/css/autocomplete-styles.css">
+    <link rel="stylesheet" href="${rc.contextPath}/resources/css/cssreset.css">
+    <link rel="stylesheet" href="${rc.contextPath}/resources/css/cssfonts.css">
+    <link rel="stylesheet" href="${rc.contextPath}/resources/css/cssgrids.css">
+    <link rel="stylesheet" href="${rc.contextPath}/resources/css/pagination.css"/>
+    <link rel="stylesheet" type="text/css" href="$!{rc.contextPath}/resources/css/jquery-ui.css"/>
+    <script src="$!{rc.contextPath}/resources/js/jquery-1.7.1.min.js"></script>
+    <script src="$!{rc.contextPath}/resources/js/jquery.autocomplete.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/resources/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/resources/js/jquery-ui-slide.min.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/resources/js/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/resources/js/jquery.ui.dialog.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/resources/js/jquery.pagination.js"></script>
+    <script type="text/javascript" src="$!{rc.contextPath}/resources/js/ToolTip.js"></script>
+    <script type="text/javascript">
+
+    </script>
+</head>
+<body>
+<style>
+    .container_bottom {
+        width: 100%;
+        font-family: 'Microsoft YaHei';
+    }
+
+    .container_middle {
+        border: 1px solid #339966;
+        padding: 0px;
+        background-color: #ffffff;
+        margin-bottom: 30px;
+    }
+
+    .container_top {
+        padding: 8px 0px 4px 20px;
+        margin: 0px 0px 0px 0px;
+    }
+
+    #order_search {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+        background-color: #339966;
+        font-size: 15px;
+    }
+
+    #search_status {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 3px;
+        background-color: #d2d2d2;
+        font-size: 15px;
+    }
+
+    #search_model {
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 6px;
+        font-size: 15px;
+    }
+
+    #search_model tr {
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .form-input {
+        height: 25px;
+        line-height: 25px;
+        width: 150px;
+        font-size: 15px;
+    }
+
+    .form_label {
+        width: 130px;
+        text-align: right;
+        padding-right: 10px;
+        font-size: 14px;
+    }
+
+    .result_table {
+        width: 100%;
+        font-family: 'Microsoft YaHei';
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .result_table thead {
+        height: 35px;
+        line-height: 35px;
+    }
+
+    .result_table thead th {
+        border-bottom: 1px solid #428bca;
+        border-right: 1px solid #428bca;
+        text-align: center;
+    }
+
+    .result_table tbody tr {
+        height: 30px;
+        line-height: 30px
+    }
+
+    .result_table tbody tr td {
+        border: 1px solid #428bca;
+        white-space: nowrap;
+    }
+</style>
+
+<script type="text/javascript">
+
+
+    jQuery(document).ready(function () {
+        jQuery('#beginTime').datetimepicker({
+            timeFormat: '',
+            showTime: false,
+            showHour: false,
+            showMinute: false,
+            showSecond: false
+        });
+        jQuery('#endTime').datetimepicker({
+            timeFormat: '',
+            showTime: false,
+            showHour: false,
+            showMinute: false,
+            showSecond: false
+        });
+    });
+
+    function submitSearch() {
+        var beginTime = jQuery.trim(document.getElementById("beginTime").value);
+        var endTime = jQuery.trim(document.getElementById("endTime").value);
+
+        if (beginTime.length == 0) {
+            alert("请选择开始时间");
+            return;
+        }
+
+        if (endTime.length == 0) {
+            alert("请选择结束时间");
+            return;
+        }
+
+        if (beginTime > endTime) {
+            alert("开始时间不能大于结束时间");
+            return;
+        }
+
+        var selectedMerchantTag = document.getElementsByName("selectedMerchantTag");
+        var selectedMerchantList = new Array();
+        for (i = 0; i < selectedMerchantTag.length; i++) {
+            if (selectedMerchantTag[i].checked) {
+                selectedMerchantList.push(selectedMerchantTag[i].value);
+            }
+        }
+
+        //var merchantId = jQuery.trim(document.getElementById("merchantId").value);
+        var outerOrigin = jQuery.trim(document.getElementById("outerOrigin").value);
+        var requestData = "isQueryFlag=1" + "&beginTime=" + beginTime + "&endTime=" + endTime
+                + "&merchantId=" + selectedMerchantList + "&outerOrigin=" + outerOrigin;
+
+//        document.getElementById("merchantId").value = merchantId;
+//        document.getElementById("outerOrigin").value = outerOrigin;
+        document.getElementById("beginTime").value = beginTime;
+        document.getElementById("endTime").value = endTime;
+        document.getElementById("merchantId").value = selectedMerchantList;
+
+        $("searchForm").submit();
+//        jQuery.ajax({
+//            type: "GET",
+//            url: "${rc.contextPath}/ticketFailureReport",
+//            timeout: 10000,
+//            async: true,
+//            contentType: "application/x-www-form-urlencoded",
+//            data: requestData,
+//            dataType: "json",
+//            success: function (data) {
+//                switch (data.retCode) {
+//                    case 0://获取数据成功
+//                    default:
+//                        alert(data.retDesc);
+//                }
+//            },
+//            error: function (data) {
+//                alert("页面提交出错，错误信息为：" + data);
+//            }
+//
+//        });
+    }
+
+</script>
+
+<div class="container_bottom">
+    <div class="container_middle">
+        <p id="order_search1">订单搜索</p>
+
+        <div class="container_top">
+            <form id="searchForm" action="${rc.contextPath}/ticketFailureReport">
+                <input name="isQueryFlag" type="hidden" id="isQueryFlag" value="1">
+
+                <p id="search_status">搜索条件</p>
+                <table id="search_model">
+                    <tr>
+                        <td class="form_label">下单起止时间</td>
+                        <td colspan="3"><input class="form-input" name="beginTime" id="beginTime"
+                                               value="$!searchModel.beginTime">
+                            <span style="padding-left: 20px; padding-right: 20px; font-size: 14px;">到</span>
+                            <input class="form-input" name="endTime" id="endTime" value="$!searchModel.endTime"></td>
+                    </tr>
+                    <tr>
+                        <td class="form_label">出票代理</td>
+                        <br>
+                        <!--<select id="merchantId" class="form-input" name="merchantId"-->
+                        <!--style="font-family: 'Microsoft YaHei';">-->
+                        <!--<option value="0">全部</option>-->
+                        <!--#foreach($temp in $merchantList)-->
+                        <!--<option #if($!searchModel.merchant==$!temp.getId()) selected #end-->
+                        <!--value=$!temp.getId()>$!temp.getShortName()-->
+                        <!--</option>-->
+                        <!--#end-->
+                        <!--</select>-->
+                        <input style="display: none" name="merchantId" id="merchantId">
+                        <td>
+                            #foreach($temp in $merchantList)
+                            <a>$temp.getShortName()
+                                <input type="checkbox" name="selectedMerchantTag" value=$temp.getId()>
+                            </a>
+                            #end
+                        </td>
+                        <td class="form_label">订单来源</td>
+                        <td>
+                            <select id="outerOrigin" class="form-input" name="outerOrigin"
+                                    style="font-family: 'Microsoft YaHei';">
+                                <option value="all">全部</option>
+                                #foreach($temp in $!outOriginList)
+                                <option #if( $!searchModel.outerOrigin==$!temp ) selected #end value=$!temp>
+                                    $!temp
+                                </option>
+                                #end
+                                <!-- <option value="web" #if($!searchModel.outerOrigin=="web") selected #end>web</option>
+                                <option value="app" #if($!searchModel.outerOrigin=="app") selected #end>app</option>
+                                <option value="trainApp" #if($!searchModel.outerOrigin=="trainApp") selected #end>trainApp</option> -->
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+
+                <p style="text-align: right; padding-right: 30%">
+                    <button onclick="submitSearch()" type="button" style="background-color: #339966;" id="search">搜索
+                    </button>
+                </p>
+            </form>
+        </div>
+        <p id="order_search">订单列表</p>
+
+        <table class="result_table" id="result_table">
+            <thead>
+            <tr id="result_head">
+                <th>日期</th>
+                <th>出票商</th>
+                <th>渠道</th>
+                <th>订单</th>
+                <th>支付成功</th>
+                <th>推单</th>
+                <th>失败订单</th>
+                <th>失败率(失败/推单)</th>
+                <th>用户取消</th>
+                <th>其他原因</th>
+                <th>12306繁忙</th>
+                <th>身份未核验</th>
+                <th>冒用</th>
+                <th>无票</th>
+                <th>护通未核验</th>
+                <th>已订车次</th>
+                <th>坐席受限</th>
+                <th>坐席不可售</th>
+                <th>无该车次</th>
+                <th>票价错误</th>
+                <th>时间错误</th>
+                <th>姓名错误</th>
+                <th>供应商繁忙</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            #foreach($temp in $response.list)
+            <tr>
+                <td>$!{temp.day}</td>
+                <td>$!{temp.merchantName}</td>
+                <td>$!{temp.outerOrigin}</td>
+                <td>$!{temp.orderSum}</td>
+                <td>$!{temp.paySuccessSum}</td>
+                <td>$!{temp.pushOrderSum}</td>
+                <td>$!{temp.failOrderSum}</td>
+                <td>$!{temp.failOrderRate}</td>
+                <td>$!{temp.cancelByUser}</td>
+                <td>$!{temp.failureType.defaultReason}</td>
+                <td>$!{temp.failureType.i2306SystemBusy}</td>
+                <td>$!{temp.failureType.identificationCardInvalidBy12306}</td>
+                <td>$!{temp.failureType.infringement}</td>
+                <td>$!{temp.failureType.notEnoughLeftTicket}</td>
+                <td>$!{temp.failureType.passportInvalidBy12306}</td>
+                <td>$!{temp.failureType.repeatTicket}</td>
+                <td>$!{temp.failureType.restrictedTicket}</td>
+                <td>$!{temp.failureType.seatNotOnSale}</td>
+                <td>$!{temp.failureType.trainNumberNotOnSale}</td>
+                <td>$!{temp.failureType.wrongTicketPriceInfo}</td>
+                <td>$!{temp.failureType.wrongTicketTimeInfo}</td>
+                <td>$!{temp.failureType.wrongPassengerName}</td>
+                <td>$!{temp.failureType.merchantSystemFail}</td>
+            </tr>
+            #end
+            </tbody>
+        </table>
+
+        <style>
+            .fenye {
+                margin-top: 20px;
+            }
+
+            .fenye a {
+                margin-left: 5px;
+                padding-left: 3px;
+                padding-right: 3px;
+            }
+        </style>
+
+        <p class="fenye">
+            #if($pag.totalPage>1) <a href="${rc.contextPath}${pageUrl}pageNo=1"
+                                     class="fenyezd" style="padding-left: 20px;">首页</a>
+            #if($pag.pageNo!=1) #set($pre = $pag.pageNo) #set($pre = $pag.pageNo
+            - 1) <a href="${rc.contextPath}${pageUrl}pageNo=$pre" title="测试"
+                    class="fenyezd">上一页</a> #end #set($k = $pag.pageNo) #set($k = $k -
+            5) #if($k<=1) #set($k=1) #end #if($k>1) <a class="fenyezd">...</a>
+            #end #set($t = $pag.pageNo+5) #if($t>=$pag.totalPage)
+            #set($t=$pag.totalPage) #end #set($i=0) #foreach($i in [$k..$t]) <a
+                #if($i==$pag.pageNo ) style="background: red;" #end
+                href="${rc.contextPath}${pageUrl}pageNo=$i" class="fenyezd">$i</a>
+            #end #if($t<$pag.totalPage) <a class="fenyezd">...</a> #end
+
+            #if($pag.pageNo!=$pag.totalPage) #set($next =$pag.pageNo+1) <a
+                href="${rc.contextPath}${pageUrl}pageNo=$next" class="fenyezd">下一页</a>
+            #end <a href="${rc.contextPath}${pageUrl}pageNo=$pag.totalPage"
+                    class="fenyezd">尾页</a> #end <a
+                style="padding-left: 20px; font-family: 'Microsoft YaHei';">总页数:</a>
+            <a class="number">$!pag.totalPage</a> <a
+                style="padding-left: 10px; font-family: 'Microsoft YaHei';">记录总数:</a>
+            <a class="number">$!pag.totalCount</a>
+        </p>
+    </div>
+</div>
+<script type="text/javascript">
+</script>
+<!-- <script src="$!{rc.contextPath}/resources/js/countries.js"></script> -->
+<!-- <script src="$!{rc.contextPath}/resources/js/demo.js"></script> -->
+</body>
+</html>
+

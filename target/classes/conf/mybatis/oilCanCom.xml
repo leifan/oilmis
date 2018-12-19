@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OilCanCom">
+
+	<resultMap id="BaseResultMap" type="OilCanCom">
+		<result column="id" jdbcType="DECIMAL" property="id" />
+		<result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+		<result column="port" jdbcType="VARCHAR" property="port" />
+		<result column="com_period" jdbcType="VARCHAR" property="comPeriod" />
+		<result column="protocol" jdbcType="VARCHAR" property="protocol" />
+		
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updater" jdbcType="VARCHAR" property="updater" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+	</resultMap>
+
+	<select id = "findEntityListByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from tb_oil_can_com
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null" >
+				id = #{id}
+			</if>
+			<if test="channelId != null" >
+				and channel_id = #{channelId}
+			</if>
+			<if test="port!= null" >
+				and port = #{port}
+			</if>
+			<if test="comPeriod != null" >
+				and communication_period = #{comPeriod}
+			</if>
+			<if test="protocol != null" >
+				and protocol = #{protocol}
+			</if>
+			
+		</trim>
+	</select>
+	
+	<insert id="addEntity" parameterType="java.util.Map" >
+		insert into tb_oil_can_com (
+			channel_id,port,com_period,protocol,creator,create_time
+			,updater,update_time)
+		values(
+			#{channelId},#{port},#{comPeriod},#{protocol},#{creator},#{createTime}
+			,#{updater},#{updateTime}
+		)
+	</insert>
+	
+	<update id="updateEntityById" parameterType="java.util.Map">
+	
+		update tb_oil_can_com
+		<trim prefix="set" prefixOverrides=",">
+			<if test="id != null" >
+				, id = #{id}
+			</if>
+			<if test="channelId != null" >
+				, channel_id = #{channelId}
+			</if>
+			<if test="port != null" >
+				, port = #{port}
+			</if>
+			<if test="comPeriod != null" >
+				, com_period = #{comPeriod}
+			</if>
+			<if test="protocol != null" >
+				, protocol = #{protocol}
+			</if>
+			<if test="updater != null" >
+				, updater = #{updater}
+			</if>
+			<if test="updateTime != null" >
+				, update_time = #{updateTime}
+			</if>
+		</trim>
+		where id =#{id}
+	</update>
+	
+	<delete id="deleteEntityById" parameterType="java.util.Map">
+	
+		delete from tb_oil_can_com 
+		where id=#{id}
+		limit 1
+		
+	</delete>
+	
+	<delete id="deleteEntityByChannelId" parameterType="java.util.Map">
+	
+		delete from tb_oil_can_com 
+		where channel_id=#{channelId}
+		limit 1
+		
+	</delete>
+	
+</mapper>

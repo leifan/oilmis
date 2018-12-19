@@ -1,0 +1,339 @@
+
+<div class="container">
+	<div class="row">
+		<fieldset>
+			<legend></legend>
+		</fieldset>
+		<div class="row ">
+			<div class="col-md-11">
+				<!-- BOX -->
+				
+			</div>
+		</div>
+
+		<!-- SIMPLE STRIPED -->
+		<div class="separator"></div>
+		<div class="footer-tools">
+			<span class="go-top"> <i class="fa fa-chevron-up"></i> Top
+			</span>
+		</div>
+	</div>
+</div>
+
+<!-- 增加COM boostrap模态框-->
+<div class="modal fade" id="addComModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新增端口信息</h4>
+			</div>
+			<div class="modal-body">
+
+				<form role="form">
+					<div class="form-group">
+						<label for="userName">通道号</label> 
+						<input type="text" class="form-control" id="channelId" name="channelId" placeholder="请输入通道号，如#1">
+					</div>
+					<div class="form-group">
+						<label for="port_selection">端口号</label>
+						<div>
+							<select id="port_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="protocol_selection">设备协议</label>
+						<div>
+							<select id="protocol_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="comPeriod">通信周期(ms)</label> 
+						<input type="text" class="form-control" id="comPeriod" name="comPeriod" placeholder="请输入通信周期，单位毫秒">
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button onclick="javascript:addCom()" type="button"
+					class="btn btn-primary">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 更新已有员工信息boostrap模态框-->
+<div class="modal fade" id="updateComModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">更新通道信息</h4>
+			</div>
+			<div class="modal-body">
+
+				<form role="form">
+					<input style="display: none" id="update_id">
+					<div class="form-group">
+						<label for="userName">通道号</label> 
+						<input type="text" class="form-control" id="update_channelId" name="channelId">
+					</div>
+					<div class="form-group">
+						<label for="update_port_selection">端口号</label>
+						<div>
+							<select id="update_port_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="update_protocol_selection">设备协议</label>
+						<div>
+							<select id="update_protocol_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="comPeriod">通信周期(ms)</label> 
+						<input type="text" class="form-control" id="update_comPeriod" name="comPeriod">
+					</div>
+					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-danger" onclick="javascript:deleteComModal()">删除</button>
+				<button onclick="javascript:updateCom()" type="button"
+					class="btn btn-primary">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 删除确认模态框 -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="selectionMessage_title">删除确认</h4>
+			</div>
+			<div>
+				<p style="text-align: center; font-size: 16px;">您确定要删除此记录？</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button onclick="javascript:deleteCom()" type="button"
+					class="btn btn-danger">删除</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		getComList();
+	});
+	
+
+	function selectSet(portList,protocolList){
+		
+		jQuery.each(portList,function(i,item){
+			document.getElementById('port_selection').options.add(new Option(portList[i],portList[i]));
+			document.getElementById('update_port_selection').options.add(new Option(portList[i],portList[i]));
+		});
+		
+		jQuery.each(protocolList,function(i,item){
+			document.getElementById('protocol_selection').options.add(new Option(protocolList[i],protocolList[i]));
+			document.getElementById('update_protocol_selection').options.add(new Option(protocolList[i],protocolList[i]));
+		});
+	}
+
+	function getComList() {
+
+		//拼接字符串
+		$.ajax({
+			type : "GET",
+			url : "/user/oil/gts/getComList",
+			timeout : 10000,
+			async : false,
+			contentType : "application/x-www-form-urlencoded",
+			dataType : "json",
+			success : function(data) {
+				switch (data.retCode) {
+				case 200:
+					switch (data.retCode) {
+					case 200:
+						var str = '';
+						jQuery.each(data.list,function(i,item){
+	                    	str +="<tr>"
+	                    		+ "<td><input class='radio' type='radio' name='oilTypeRadio' id='oilTypeRadio_item.id' onclick='editCom(this)'/></td>"
+	                    		+ "<td>"+item.channelId+"</td>"
+	                    		+ "<td>"+item.port+"</td>"
+	                    		+ "<td>"+item.protocol+"</td>"
+	                    		+ "<td>"+item.comPeriod+"</td>"
+	                    		+"</tr>";
+	                    });
+						selectSet(data.portList,data.protocolList);
+	                    jQuery("#comListTable tbody").html(str);
+					}
+					break;
+				default:
+					alert(data.retDesc);
+					break;
+				}
+			},
+			error : function(data) {
+				alert("页面提交出错，错误信息为：" + data);
+			}
+
+		});
+	}
+	
+	//新增通道
+	function addCom() {
+
+		var channelId = document.getElementById('channelId').value;
+		var port = document.getElementById('port_selection').value;
+		var protocol = document.getElementById('protocol_selection').value;
+		var comPeriod = document.getElementById('comPeriod').value;
+
+		//拼接字符串
+		var requestData = "channelId=" + channelId + "&port=" + port
+				+ "&protocol=" + protocol + "&comPeriod="+comPeriod
+
+		$.ajax({
+			type : "POST",
+			url : "/user/oil/gts/addCom",
+			timeout : 10000,
+			async : false,
+			contentType : "application/x-www-form-urlencoded",
+			data : requestData,
+			dataType : "json",
+			success : function(data) {
+				switch (data.retCode) {
+				case 200:
+					alert("添加通道成功");
+					getComList();//重新刷新内容
+					$('#addComModal').modal("hide");
+					break;
+				default:
+					alert(data.retDesc);
+					break;
+				}
+			},
+			error : function(data) {
+				alert("页面提交出错，错误信息为：" + data);
+			}
+
+		});
+	}
+	
+	//更新网站员工
+	function updateCom() {
+		var id = document.getElementById('update_id').value;
+		var channelId = document.getElementById('update_channelId').value;
+		var port = document.getElementById('update_port').value;
+		var udpate_protocol = document.getElementById("udpate_protocol");
+		var udpate_comPeriod = document.getElementById("udpate_comPeriod");
+		
+		//拼接字符串
+		var requestData = "id=" + id + "&channelId=" + channelId + "&port="
+				+ port + "&protocol="+protocol + "&comPeriod="+comPeriod;
+
+		$.ajax({
+			type : "POST",
+			url : "../../../user/oil/gts/updateCom",
+			timeout : 10000,
+			async : false,
+			contentType : "application/x-www-form-urlencoded",
+			data : requestData,
+			dataType : "json",
+			success : function(data) {
+				switch (data.retCode) {
+				case 200:
+					alert("更新通道信息成功");
+					getComList();//重新刷新内容
+					$('#updateComModal').modal("hide");
+					break;
+				default:
+					alert(data.retDesc);
+					break;
+				}
+			},
+			error : function(data) {
+				alert("页面提交出错，错误信息为：" + data);
+			}
+
+		});
+	}
+
+	function deleteCom(id) {
+
+		var deleteRequest = "channelId=" + document.getElementById("update_channelId").value;
+		$.ajax({
+			type : "POST",
+			url : "../../../user/oil/gts/deleteCom",
+			timeout : 20000,
+			contentType : "application/x-www-form-urlencoded",
+			data : deleteRequest,
+			dataType : "json",
+			success : function(data) {
+				switch (data.retCode) {
+				case 200:
+					alert(data.retDesc);
+					$('#updateComModal').modal("hide");
+					$('#deleteConfirmModal').modal("hide");
+					getComList();//重新刷新内容
+					break;
+				default:
+					alert(data.retDesc);
+					break;
+				}
+			},
+			error : function(data) {
+				alert("页面提交出错，错误信息为：" + data);
+			}
+
+		});
+
+	}
+
+	//编辑油站员工信息,弹出更新模态框
+	function editCom(rowRadio) {
+		$('#updateComModal').modal();
+		var tr = rowRadio.parentNode.parentNode;
+		var tds = tr.cells;
+		//第一列为单选按钮，从1开始为item内容
+		var channelId = tds[1].innerHTML; 
+		var port = tds[2].innerHTML;
+		var protocol = tds[3].innerHTML;
+		var comPeroid = tds[4].innerHTML;
+		
+		document.getElementById('update_channelId').value = channelId;
+		document.getElementById('update_comPeriod').value = comPeroid;
+ 		$('#update_port_selection').find("option[value='"+port+"']").attr("selected",true);
+		$('#update_protocol_selection').find("option[value='"+protocol+"']").attr("selected",true);
+		
+	}
+
+	function deleteComModal() {
+		$('#deleteConfirmModal').modal();
+	}
+	
+</script>
+
+</body>
+</html>

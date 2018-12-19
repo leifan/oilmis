@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="always" name="referrer">
+<meta http-equiv="cache-control" content="max-age">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>brite管理系统</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="stylesheet" type="text/css" href="../css/cloud-admin.css">
+<link rel="stylesheet" type="text/css" href="../css/themes/default.css"
+	id="skin-switcher">
+<link rel="stylesheet" type="text/css" href="../css/responsive.css">
+<link rel="stylesheet" type="text/css" href="../css/circle.percent.css">
+<!-- STYLESHEETS -->
+<!--[if lt IE 9]>
+    <script src="js/flot/excanvas.min.js"></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- ANIMATE -->
+<link rel="stylesheet" type="text/css" href="../css/animatecss/animate.min.css" />
+
+</head>
+<body>
+	<header class="navbar clearfix" id="header">
+		<div class="container">
+			<ul class="nav navbar-nav pull-right">
+				<li class="dropdown user" id="header-user">
+					<a style='font-size:14px' href="#" class="dropdown-toggle" data-toggle="dropdown">个人中心<i class="fa fa-angle-down"></i></a>
+					<ul class="dropdown-menu">
+						<li><a href="/mis/me.html"><i class="fa fa-user"></i>个人信息</a></li>
+						<li><a href="/mis/login.html"><i class="fa fa-power-off"></i>退出登录</a></li>
+					</ul>
+				</li>
+				<li><img id="systemAlarmSystemImg" src="../img/index/noAlarm.png" onclick="javascript:systemAlarmReport()" /></li>
+			</ul>
+		</div>
+	</header>
+	<section id="page">
+		<!-- SIDEBAR -->
+		<div id="sidebar" class="sidebar">
+			<div class="sidebar-menu nav-collapse">
+				<ul>
+					<!-- 需要二级目录时给li添加 class="has-sub" -->
+					<li><a href="/mis/gts/index.html" target="rightFrame"> <i
+							class="fa fa-tachometer fa-fw"></i> <span class="menu-text">首页</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:userInfoManager()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">用户管理</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:shiftWorkReport()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">班组管理</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:oilProductSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">油品管理</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:comSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">通道管理</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:systemSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">系统设置</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:clockSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">时钟设置</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:alarmCodeSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">报警编码</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:oilCanManagerSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">罐表编制</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:oilCanSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">储罐管理</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:oilGunSetting()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">油枪管理</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:oilCanFix()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">储罐修正</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:dataSwitch()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">数据交换</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 使用iframe形式实现 -->
+		<!-- <div id="main-content">
+			<div class="container">
+				<div class="row">
+					<div id="content" class="col-lg-12">
+							<iframe id="rightFrame" name="rightFrame" frameborder=0
+								marginwidth=0 marginheight=0 onLoad="iFrameHeight()"
+								width="100%" height="100%" scrolling="no"> 
+							</iframe>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div id="main-content">
+			<div class="container">
+				<div class="row">
+					<div id="right_content" class="col-lg-12"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<script src="../js/jquery/jquery-2.0.3.min.js"></script>
+	<!-- <script src="../js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script> -->
+	<script src="../bootstrap-dist/js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+	<script src="../js/jQuery-Cookie/jquery.cookie.min.js"></script>
+
+	<!--展示百分比插件-->
+	<script type="text/javascript" src="../js/circle_percent.js"></script>
+	<script src="../js/script.js"></script>
+	<script src="../js/Chart-2.1.6.js"></script>
+	
+	<script>
+		function userInfoManager() {
+			/* document.getElementById("right_content").load(
+					"./userSettingForm.html"); */
+			$("#right_content").load("./userSettings.html");
+		}
+		
+		function oilProductSetting() {
+			$("#right_content").load("./oilProductSetting.html");
+		}
+		
+		/* 库存报告 */
+		function comSetting() {
+			$("#right_content").load("./comSetting.html");
+		}
+		
+		/* 进油报告 */
+		function oilCanFeedingReport() {
+			$("#right_content").load("./oilCanFeedingReport.html");
+		}
+		
+		/* 报警报告 */
+		function oilCanAlarmReport() {
+			$("#right_content").load("./oilCanAlarmReport.html");
+		}
+		
+		/* 设置模式-储罐管理 */
+		function oilCanSetting() {
+			$("#right_content").load("./oilCanSetting.html");
+		}
+		
+		/* 报警报告 */
+		function shiftWorkReport() {
+			$("#right_content").load("./shiftWorkSetting.html");
+		}
+		
+		/* 首页报警按钮详情页，配合checkAlarmInfo */
+		function systemAlarmReport() {
+			$("#right_content").load("./systemAlarmReport.html");
+		}
+		
+		/*每次进入查询是否有报警，左侧栏*/
+		function checkSystemAlarmInfo(){
+			$("#systemAlarmSystemImg").attribute("src",statusIcon);
+		}
+		
+		/*系统设置*/
+		function systemSetting(){
+			$("#right_content").load("./systemSetting.html");
+		}
+		
+		/*系统设置*/
+		function clockSetting(){
+			$("#right_content").load("./clockSetting.html");
+		}
+		
+		/*系统设置*/
+		function alarmCodeSetting(){
+			$("#right_content").load("./alarmCodeSetting.html");
+		}
+		
+		/*系统设置*/
+		function oilGunSetting(){
+			$("#right_content").load("./oilGunSetting.html");
+		}
+		
+		/*系统设置*/
+		function oilCanFix(){
+			$("#right_content").load("./oilCanFix.html");
+		}
+		
+		/*系统设置*/
+		function dataSwitch(){
+			$("#right_content").load("./dataSwitch.html");
+		}
+		
+		
+		
+	
+	</script>
+</body>
+</html>

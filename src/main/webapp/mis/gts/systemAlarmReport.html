@@ -1,0 +1,278 @@
+<meta http-equiv="cache-control" content="max-age">
+
+<link rel="stylesheet" type="text/css" href="css/cloud-admin.css">
+<link rel="stylesheet" type="text/css" href="css/themes/default.css"
+	id="skin-switcher">
+<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<link rel="stylesheet" type="text/css" href="css/circle.percent.css">
+<!-- STYLESHEETS -->
+<!--[if lt IE 9]>
+    <script src="js/flot/excanvas.min.js"></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- ANIMATE -->
+<link rel="stylesheet" type="text/css"
+	href="css/animatecss/animate.min.css" />
+
+
+<div class="container">
+
+	<div class="row">
+		<fieldset>
+			<legend></legend>
+		</fieldset>
+		<div class="row ">
+			<div class="col-md-10">
+				<div class="box border pink">
+					<div class="box-title">
+						<h4>
+							<i class="fa fa-table"></i>历史报警记录
+						</h4>
+					</div>
+
+					<div class="box-body">
+						<table id="oilCanAlarmListTable" class="table table-striped table-hover ">
+							<thead>
+								<tr>
+									<th>选择</th>
+									<th>报警罐号</th>
+									<th>油高报警</th>
+									<th>水高报警</th>
+									<th>温度报警</th>
+									<th>流速报警</th>
+									<th>泄露报警</th>
+									<th>盗油报警</th>
+									<th>通信报警</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="separator"></div>
+		<div class="footer-tools">
+			<span class="go-top"> <i class="fa fa-chevron-up"></i> Top
+			</span>
+		</div>
+	</div>
+</div>
+
+
+<!-- 模态框，弹框录入数据，弹框内容包括一些基本信息和最近的计量数据等 -->
+<div class="modal fade" id="updateSystemAlarmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">报警详细信息</h4>
+            </div>
+            <div class="modal-body">
+            	<table id = "updateSystemAlarmModalTable" class='table'>
+            		<thead>
+            		</thead>
+            		<tbody>
+            		</tbody>
+            	</table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 服务器返回确认信息 -->
+<div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">更新操作</h4>
+            </div>
+            <div>
+                <p id="updateResultMessage" style="text-align:center; font-size: 16px; color: red;"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery/jquery-2.0.3.min.js"></script>
+	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+	<!--展示百分比插件-->
+	<script type="text/javascript" src="js/circle_percent.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/Chart-2.1.6.js"></script>
+	
+<script>
+
+	$(document).ready(function() {
+		getOilCanAlarmConfirmList();
+	});
+
+	function getOilCanAlarmConfirmList() {
+		
+		jQuery.ajax({
+					url : "../../user/oil/gts/getOilCanAlarmConfirmList",
+					contentType : "application/x-www-form-urlencoded",
+					dataType : "json",
+					success : function(response) {
+						switch (response.retCode) {
+						case 200:
+							var str = "";
+		                    jQuery.each(response.list,function(i,item){
+		                    	
+		                    	var param = JSON.stringify(item);
+		                    	str +="<tr>"
+		                    		+ "<td><input class='radio' type='radio' name='systemAlarmRadio' onclick='systemAlarmDetail(\""+item.id+"\")'/></td>"
+									+ "<td name='id' style='display: none'>"+item.id+"</td>"
+		                    		+ "<td>"+item.alarmDate+"</td>"
+		                    		+ "<td>"+item.alarmTime+"</td>"
+		                    		+ "<td>"+item.oilCanName+"</td>"
+		                    		+ "<td>"+item.alarmName+"</td>"
+		                    		+ "<td>"+item.confirmTime+"</td>"
+		                    		+ "<td>"+item.confirmUser+"</td>"
+		                    		+ "<td>"+item.confirmTime+"</td>"
+		                    		+ "<td>"+item.confirmUser+"</td>"
+		                    		+"</tr>";
+		                    });
+		                    jQuery("#oilCanAlarmListTable tbody").html(str);
+							break;
+						default:
+							alert(response.retDesc);
+						}
+					},
+					error : function(response) {
+						alert("获取数据失败，请稍后重试");
+					}
+				});
+
+	}
+
+	function searchRecord() {
+
+		var beginDate = jQuery.trim(document.getElementById("beginTime").value);
+		var endDate = jQuery.trim(document.getElementById("endTime").value);
+
+		if (beginDate.length == 0) {
+			alert("请选择开始时间");
+			return;
+		}
+
+		if (endDate.length == 0) {
+			alert("请选择结束时间");
+			return;
+		}
+
+		if (beginDate >= endDate) {
+			alert("开始时间不能大于等于结束时间");
+			return;
+		}
+
+		var requestData = '';
+		requestData = {
+			beginDate : beginDate,
+			endDate : endDate,
+		}
+
+		getOilCanAlarmList(requestData);
+
+	}
+	
+	function systemAlarmDetail(itemId){
+		
+		var reuqest = "id="+itemId;
+		
+		jQuery.ajax({
+			url : "../../user/oil/gts/getOilCanAlarmConfirmDetail",
+			contentType : "application/x-www-form-urlencoded",
+			dataType : "json",
+			data:reuqest,
+			success : function(response) {
+				switch (response.retCode) {
+				case 200:
+					var str = "";
+					str +="<tr>"
+						+ 	"<th>报警罐号</th>"
+						+ 	"<td>"+response.detail.oilCanName+"</td>"
+						+ 	"<th>报警类型</th>"
+						+ 	"<td>"+response.detail.alarmName+"</td>"				
+						+ "</tr>"
+						+ "<tr>"
+						+ 	"<th>报警日期</th>"
+						+ 	"<td>"+response.detail.alarmDate+"</td>"
+						+ 	"<th>报警时间</th>"
+						+ 	"<td>"+response.detail.alarmTime+"</td>"				
+						+ "</tr>"
+						+ "<tr>"
+						+ 	"<th>确认时间</th>"
+						+ 	"<td>"+response.detail.confirmTime+"</td>"
+						+ 	"<th>确 认 人</th>"
+						+ 	"<td>"+response.detail.confirmUser+"</td>"	
+						+ "</tr>"
+						+ "<tr>"
+						+	"<td colspan='4' style='text-align:right'><a class='btn btn-primary' onclick='javascript:confirmAlarm(\""+response.detail.id+"\")'>确认报警</a></td>"
+						+"</tr>";
+					$("#updateSystemAlarmModalTable tbody").html(str);
+					$("#updateSystemAlarmModal").modal();
+					break;
+				default:
+					alert(response.retDesc);
+					break;
+				}
+			},
+			error:function(response){
+				$("#updateResultMessage").text("获取数据失败，请稍后重试");
+                $('#updateConfirmModal').modal();
+			}
+		});
+				
+		
+	}
+	
+	/*确认报警*/
+	function confirmAlarm(id){
+		
+		var requestData = "id="+id;
+		alert(id);
+		
+		jQuery.ajax({
+			url : "../../user/oil/gts/confirmSystemAlarm",
+			data : requestData,
+			contentType : "application/x-www-form-urlencoded",
+			dataType : "json",
+			success : function(response) {
+				switch (response.retCode) {
+				case 200:
+					//成功后modal不再停留
+                    $("#updateSystemAlarmModal").modal('hide');
+                default:
+                	//失败后modal继续停留
+                    ;
+                    $("#updateResultMessage").text(response.retDesc);
+                    $('#updateConfirmModal').modal();
+				}
+			},
+			error : function(response) {
+				//失败后modal继续停留
+				$("#updateResultMessage").text("获取数据失败，请稍后重试");
+                $('#updateConfirmModal').modal();
+			}
+		});
+		
+	}
+
+</script>
+
+	
+
+
+   

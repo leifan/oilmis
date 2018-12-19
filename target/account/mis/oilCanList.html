@@ -1,0 +1,1338 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>brite管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="css/cloud-admin.css">
+    <link rel="stylesheet" type="text/css" href="css/themes/default.css" id="skin-switcher">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="css/circle.percent.css">
+    <!-- STYLESHEETS --><!--[if lt IE 9]>
+    <!--<script src="js/flot/excanvas.min.js"></script>-->
+    <!--<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>-->
+    <!--<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>--><![endif]-->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- ANIMATE -->
+    <link rel="stylesheet" type="text/css" href="css/animatecss/animate.min.css"/>
+    <!-- GRITTER -->
+</head>
+<body>
+<!-- HEADER -->
+<header class="navbar clearfix" id="header">
+    <div class="container">
+        <div class="navbar-brand">
+            <!-- COMPANY LOGO -->
+            <a href="/index.html">
+                <img src="img/logo/logo.png" alt="Cloud Admin Logo" class="img-responsive" height="30" width="120">
+            </a>
+            <!-- /COMPANY LOGO -->
+            <!-- TEAM STATUS FOR MOBILE -->
+            <div class="visible-xs">
+                <a href="#" class="team-status-toggle switcher btn dropdown-toggle">
+                    <i class="fa fa-users"></i>
+                </a>
+            </div>
+            <!-- /TEAM STATUS FOR MOBILE -->
+            <!-- SIDEBAR COLLAPSE -->
+            <div id="sidebar-collapse" class="sidebar-collapse btn">
+                <i class="fa fa-bars"
+                   data-icon1="fa fa-bars"
+                   data-icon2="fa fa-bars"></i>
+            </div>
+            <!-- /SIDEBAR COLLAPSE -->
+        </div>
+        <!-- NAVBAR LEFT -->
+        <ul class="nav navbar-nav pull-left hidden-xs" id="navbar-left">
+            <li class="dropdown">
+                <a href="#" class="team-status-toggle dropdown-toggle tip-bottom" data-toggle="tooltip"
+                   title="Toggle Team View">
+                    <i class="fa fa-users"></i>
+                    <span class="name">Team Status</span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-cog"></i>
+                    <span class="name">Skins</span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu skins">
+                    <li class="dropdown-title">
+                        <span><i class="fa fa-leaf"></i> Theme Skins</span>
+                    </li>
+                    <li><a href="#" data-skin="default">Subtle (default)</a></li>
+                    <li><a href="#" data-skin="night">Night</a></li>
+                    <li><a href="#" data-skin="earth">Earth</a></li>
+                    <li><a href="#" data-skin="utopia">Utopia</a></li>
+                    <li><a href="#" data-skin="nature">Nature</a></li>
+                    <li><a href="#" data-skin="graphite">Graphite</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- /NAVBAR LEFT -->
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <ul class="nav navbar-nav pull-right">
+            <!-- BEGIN NOTIFICATION DROPDOWN -->
+            <li class="dropdown" id="header-notification">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge">7</span>
+                </a>
+                <ul class="dropdown-menu notification">
+                    <li class="dropdown-title">
+                        <span><i class="fa fa-bell"></i> 7 Notifications</span>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-success"><i class="fa fa-user"></i></span>
+									<span class="body">
+										<span class="message">5 users online. </span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>Just now</span>
+										</span>
+									</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-primary"><i class="fa fa-comment"></i></span>
+									<span class="body">
+										<span class="message">Martin commented.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>19 mins</span>
+										</span>
+									</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-warning"><i class="fa fa-lock"></i></span>
+									<span class="body">
+										<span class="message">DW1 server locked.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>32 mins</span>
+										</span>
+									</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-info"><i class="fa fa-twitter"></i></span>
+									<span class="body">
+										<span class="message">Twitter connected.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>55 mins</span>
+										</span>
+									</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-danger"><i class="fa fa-heart"></i></span>
+									<span class="body">
+										<span class="message">Jane liked. </span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>2 hrs</span>
+										</span>
+									</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="label label-warning"><i class="fa fa-exclamation-triangle"></i></span>
+									<span class="body">
+										<span class="message">Database overload.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>6 hrs</span>
+										</span>
+									</span>
+                        </a>
+                    </li>
+                    <li class="footer">
+                        <a href="#">See all notifications <i class="fa fa-arrow-circle-right"></i></a>
+                    </li>
+                </ul>
+            </li>
+            <!-- END NOTIFICATION DROPDOWN -->
+            <!-- BEGIN TODO DROPDOWN -->
+            <li class="dropdown" id="header-tasks">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-tasks"></i>
+                    <span class="badge">3</span>
+                </a>
+                <ul class="dropdown-menu tasks">
+                    <li class="dropdown-title">
+                        <span><i class="fa fa-check"></i> 6 tasks in progress</span>
+                    </li>
+                    <li>
+                        <a href="#">
+									<span class="header clearfix">
+										<span class="pull-left">Software Update</span>
+										<span class="pull-right">60%</span>
+									</span>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                    <span class="sr-only">60% Complete</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+									<span class="header clearfix">
+										<span class="pull-left">Software Update</span>
+										<span class="pull-right">25%</span>
+									</span>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="25"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                                    <span class="sr-only">25% Complete</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+									<span class="header clearfix">
+										<span class="pull-left">Software Update</span>
+										<span class="pull-right">40%</span>
+									</span>
+
+                            <div class="progress progress-striped">
+                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+                                    <span class="sr-only">40% Complete</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+									<span class="header clearfix">
+										<span class="pull-left">Software Update</span>
+										<span class="pull-right">70%</span>
+									</span>
+
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                                    <span class="sr-only">70% Complete</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+									<span class="header clearfix">
+										<span class="pull-left">Software Update</span>
+										<span class="pull-right">65%</span>
+									</span>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" style="width: 35%">
+                                    <span class="sr-only">35% Complete (success)</span>
+                                </div>
+                                <div class="progress-bar progress-bar-warning" style="width: 20%">
+                                    <span class="sr-only">20% Complete (warning)</span>
+                                </div>
+                                <div class="progress-bar progress-bar-danger" style="width: 10%">
+                                    <span class="sr-only">10% Complete (danger)</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="footer">
+                        <a href="#">See all tasks <i class="fa fa-arrow-circle-right"></i></a>
+                    </li>
+                </ul>
+            </li>
+            <!-- END TODO DROPDOWN -->
+            <!-- BEGIN USER LOGIN DROPDOWN -->
+            <li class="dropdown user" id="header-user">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img alt="" src="img/avatars/avatar3.jpg"/>
+                    <span class="username">John Doe</span>
+                    <i class="fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
+                    <li><a href="#"><i class="fa fa-cog"></i> Account Settings</a></li>
+                    <li><a href="#"><i class="fa fa-eye"></i> Privacy Settings</a></li>
+                    <li><a href="login.html"><i class="fa fa-power-off"></i> Log Out</a></li>
+                </ul>
+            </li>
+            <!-- END USER LOGIN DROPDOWN -->
+        </ul>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- TEAM STATUS -->
+    <div class="container team-status" id="team-status">
+        <div id="scrollbar">
+            <div class="handle">
+            </div>
+        </div>
+        <div id="teamslider">
+            <ul class="team-list">
+                <li class="current">
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar3.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					You
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 35%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 20%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 10%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">6</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">3</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">1</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar1.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					Max Doe
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 15%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 40%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 20%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">2</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">8</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">4</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar2.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					Jane Doe
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 65%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 10%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 15%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">10</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">3</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">4</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar4.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					Ellie Doe
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 5%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 48%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 27%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">1</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">6</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">2</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar5.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					Lisa Doe
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 21%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 20%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 40%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">4</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">5</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">9</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar6.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					Kelly Doe
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 45%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 21%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 10%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">6</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">3</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">1</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar7.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					Jessy Doe
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 7%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 30%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 10%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">1</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">6</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">2</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">
+				  <span class="image">
+					  <img src="img/avatars/avatar8.jpg" alt=""/>
+				  </span>
+				  <span class="title">
+					Debby Doe
+				  </span>
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" style="width: 70%">
+                                <span class="sr-only">35% Complete (success)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-warning" style="width: 20%">
+                                <span class="sr-only">20% Complete (warning)</span>
+                            </div>
+                            <div class="progress-bar progress-bar-danger" style="width: 5%">
+                                <span class="sr-only">10% Complete (danger)</span>
+                            </div>
+                        </div>
+					<span class="status">
+						<div class="field">
+                            <span class="badge badge-green">13</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-orange">7</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+						<div class="field">
+                            <span class="badge badge-red">1</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+				    </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /TEAM STATUS -->
+</header>
+<!--/HEADER -->
+<section id="page">
+    <!-- SIDEBAR -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-menu nav-collapse">
+            <div class="divide-20"></div>
+            <!-- SIDEBAR MENU -->
+            <ul>
+                <li>
+                    <a href="/mis/index.html">
+                        <i class="fa fa-tachometer fa-fw"></i> <span class="menu-text">首页</span>
+                        <span class="selected"></span>
+                    </a>
+                </li>
+                <li class="has-sub">
+                    <a class="">
+                        <i class="fa fa-table fa-fw"></i> <span class="menu-text">油罐管理</span>
+                        <span class="arrow open"></span>
+                        <span class="selected"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="" href="/mis/oilCanList.html"><span class="sub-menu-text">油罐信息</span></a>
+                        </li>
+                        <li><a class="" href="/mis/oilCanFeeding.html"><span class="sub-menu-text">进油报表</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="has-sub">
+                    <a class="">
+                        <i class="fa fa-table fa-fw"></i> <span class="menu-text">信息管理</span>
+                        <span class="arrow open"></span>
+                        <span class="selected"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="" href="/mis/districtAndDepartment.html"><span class="sub-menu-text">区域部门</span></a>
+                        </li>
+                        <li><a class="" href="/mis/oilTypeAndProduct.html"><span class="sub-menu-text">油品油料</span></a>
+                        </li>
+                        <li><a class="" href="/mis/oilStationStaff.html"><span class="sub-menu-text">油站员工</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="has-sub">
+                    <a class="">
+                        <i class="fa fa-pencil-square-o fa-fw"></i> <span class="menu-text">用户管理</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub">
+                        <li><a class="" href="/mis/userSettingForm.html"><span class="sub-menu-text">用户信息管理</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub">
+                    <a href="me.html">
+                        <i class="fa fa-pencil-square-o fa-fw"></i> <span class="menu-text">个人中心</span>
+                        <span class="arrow"></span>
+                    </a>
+                </li>
+            </ul>
+            <!-- /SIDEBAR MENU -->
+        </div>
+    </div>
+    <!-- /SIDEBAR -->
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+
+                <div id="content" class="col-sm-12">
+                <form class="form-horizontal" role="form">
+                        <fieldset>
+                            <legend></legend>
+                        </fieldset>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label" for="filter_districtName_selection">区域名称</label>
+                            <div class="col-sm-2">
+                                <select id="filter_districtName_selection" class="selectpicker form-control"></select>
+                            </div>
+
+                            <label class="col-sm-1 control-label" for="filter_oilStationName_selection">油站名称</label>
+                            <div class="col-sm-2">
+                                <select id="filter_oilStationName_selection" class="selectpicker form-control"></select>
+                            </div>
+                            <a class="btn btn-primary" onclick="javascript:getOilCanList()">点击查询</a>
+                            <a class="btn btn-primary btn-danger" onclick="javascript:getOilCanList()">查看全部</a>
+                        </div>
+                    </form>
+                    <fieldset>
+                        <legend></legend>
+                    </fieldset>
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <!-- BOX -->
+                            <div class="box border pink">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-table"></i>油罐列表</h4>
+
+                                    <div class="tools">
+                                        <a onclick="$('#addOilCanModal').modal();" data-toggle="modal">新增</a>
+                                    </div>
+                                </div>
+
+                                <div class="box-body">
+                                    <table id="oilCanList" class="table table-striped table-hover ">
+                                        <thead>
+                                        <tr>
+                                            <th>选择</th>
+                                            <th style="display: none">#</th>
+                                            <th>油罐编码</th>
+                                            <th>油罐名称</th>
+                                            <th>油罐类型</th>
+                                            <th>油品类型</th>
+                                            <th>所在区域</th>
+                                            <th>油站名称</th>
+                                            <th>油罐高度</th>
+                                            <th>油罐容量</th>
+                                            <th>储罐状态</th>
+                                            <th>报警状态</th>
+                                            <th>检测时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /BOX -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /CALENDAR & CHAT -->
+                <div class="footer-tools">
+							<span class="go-top">
+								<i class="fa fa-chevron-up"></i> Top
+							</span>
+                </div>
+            </div>
+            <!-- /CONTENT-->
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="addOilCanModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增部门信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form role="form">
+
+                    <div class="form-group">
+                        <label for="oilCanCode">油罐编号</label>
+                        <input type="text" class="form-control" id="oilCanCode" name="oilCanCode" placeholder="请输入油罐编号">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanName">油罐名称</label>
+                        <input type="text" class="form-control" id="oilCanName" name="oilCanName" placeholder="请输入油罐名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanType">油罐类型(如竖罐,横罐)</label>
+                        <input type="text" class="form-control" id="oilCanType" name="oilCanType" placeholder="请输入油罐类型">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilProduct_selection">油品类型</label>
+
+                        <div>
+                            <select id="oilProduct_selection" class="selectpicker form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="districtName_selection">所在区域</label>
+
+                        <div>
+                            <select id="districtName_selection" class="selectpicker form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="districtName_selection">所在油站</label>
+
+                        <div>
+                            <select id="oilStationName_selection" class="selectpicker form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanHeight">油罐高度(单位:毫米mm)</label>
+                        <input type="text" class="form-control" id="oilCanHeight" name="oilCanHeight"
+                               placeholder="请输入油罐高度">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanVolumn">油罐容量(单位:立方米m3)</label>
+                        <input type="text" class="form-control" id="oilCanVolumn" name="oilCanVolumn"
+                               placeholder="请输入油罐容量">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanStatus">储罐状态(暂停或使用)</label>
+                        <input type="text" class="form-control" id="oilCanStatus" name="oilCanStatus"
+                               placeholder="请输入储罐状态">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkTime">检测时间(格式: yyyy-MM-dd HH:mm:ss)</label>
+                        <input type="text" class="form-control" id="checkTime" name="checkTime"
+                               placeholder="请输入员油罐最后一次检测时间">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button onclick="javascript:addOilCan()" type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 更新已有员工信息boostrap模态框-->
+<div class="modal fade" id="updateOilCanModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增部门信息</h4>
+            </div>
+            <div class="modal-body">
+
+                <form role="form">
+                    <input style="display: none" id="update_id">
+
+                    <div class="form-group">
+                        <label for="oilCanCode">油罐编号</label>
+                        <input type="text" class="form-control" id="update_oilCanCode" name="oilCanCode"
+                               placeholder="请输入油罐编号">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanName">油罐名称</label>
+                        <input type="text" class="form-control" id="update_oilCanName" name="oilCanName"
+                               placeholder="请输入油罐名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanType">油罐类型(如竖罐,横罐)</label>
+                        <input type="text" class="form-control" id="update_oilCanType" name="oilCanType"
+                               placeholder="请输入油罐类型">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilProduct_selection">油品类型</label>
+
+                        <div>
+                            <select id="update_oilProduct_selection" class="selectpicker form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="districtName_selection">所在区域</label>
+
+                        <div>
+                            <select id="update_districtName_selection" class="selectpicker form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="districtName_selection">所在油站</label>
+
+                        <div>
+                            <select id="update_oilStationName_selection" class="selectpicker form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanHeight">油罐高度(单位:毫米mm)</label>
+                        <input type="text" class="form-control" id="update_oilCanHeight" name="oilCanHeight"
+                               placeholder="请输入油罐高度">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanVolumn">油罐容量(单位:立方米m3)</label>
+                        <input type="text" class="form-control" id="update_oilCanVolumn" name="oilCanVolumn"
+                               placeholder="请输入油罐容量">
+                    </div>
+                    <div class="form-group">
+                        <label for="oilCanStatus">储罐状态(暂停或使用)</label>
+                        <input type="text" class="form-control" id="update_oilCanStatus" name="oilCanStatus"
+                               placeholder="请输入储罐状态">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkTime">检测时间(格式: yyyy-MM-dd HH:mm:ss)</label>
+                        <input type="text" class="form-control" id="update_checkTime" name="checkTime"
+                               placeholder="请输入员油罐最后一次检测时间">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button onclick="javascript:updateOilCan()" type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 删除确认模态框 -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="selectionMessage_title">删除确认</h4>
+            </div>
+            <div>
+                <p style="text-align:center; font-size: 16px;">您确定要删除此记录？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button onclick="javascript:deleteElement()" type="button" class="btn btn-primary">删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">更新操作</h4>
+            </div>
+            <div>
+                <p id="updateResultMessage" style="text-align:center; font-size: 16px; color: red;"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/PAGE -->
+<!-- JAVASCRIPTS -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- JQUERY -->
+<script src="js/jquery/jquery-2.0.3.min.js"></script>
+<!-- JQUERY UI-->
+<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+<!-- BOOTSTRAP -->
+<script src="bootstrap-dist/js/bootstrap.min.js"></script>
+
+
+<!-- DATE RANGE PICKER -->
+<script src="js/bootstrap-daterangepicker/moment.min.js"></script>
+
+<script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+<!-- SLIMSCROLL -->
+<script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+<!-- SLIMSCROLL -->
+<script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js"></script>
+<!-- BLOCK UI -->
+<script type="text/javascript" src="js/jQuery-BlockUI/jquery.blockUI.min.js"></script>
+<!-- SPARKLINES -->
+<script type="text/javascript" src="js/sparklines/jquery.sparkline.min.js"></script>
+<!-- EASY PIE CHART -->
+<script src="js/jquery-easing/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/easypiechart/jquery.easypiechart.min.js"></script>
+<!-- FLOT CHARTS -->
+<script src="js/flot/jquery.flot.min.js"></script>
+<script src="js/flot/jquery.flot.time.min.js"></script>
+<script src="js/flot/jquery.flot.selection.min.js"></script>
+<script src="js/flot/jquery.flot.resize.min.js"></script>
+<script src="js/flot/jquery.flot.pie.min.js"></script>
+<script src="js/flot/jquery.flot.stack.min.js"></script>
+<script src="js/flot/jquery.flot.crosshair.min.js"></script>
+<!-- TODO -->
+<!-- TIMEAGO -->
+<script type="text/javascript" src="js/timeago/jquery.timeago.min.js"></script>
+<!-- FULL CALENDAR -->
+<script type="text/javascript" src="js/fullcalendar/fullcalendar.min.js"></script>
+<!-- COOKIE -->
+<script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+
+<!--展示百分比插件-->
+<script type="text/javascript" src="js/circle_percent.js"></script>
+<script type="text/javascript" src="js/jquery.progress.js"></script>
+
+<!-- CUSTOM SCRIPT -->
+<script src="js/script.js"></script>
+<script>
+
+    jQuery(document).ready(function () {
+        App.init();
+    });
+
+    var oilStationList = new Array();
+    oilStationList.push("竖罐");
+    oilStationList.push("横罐");
+
+    //展示方式仅仅为表格
+    function getOilCanList() {
+        var districtName = document.getElementById("filter_districtName_selection").value;
+        var oilStationName = document.getElementById("filter_oilStationName_selection").value;
+        var getOilCanListRequest = "districtName=" + districtName + "&oilStationName=" + oilStationName;
+        getOilCanListAjax(getOilCanListRequest);
+    }
+
+    //油罐列表
+    $(document).ready(function () {
+        getOilCanListAjax();
+    });
+
+    function updateOilCanModal(rowRadio) {
+
+        $('#updateOilCanModal').modal();
+        var tr = rowRadio.parentNode.parentNode;
+        var tds = tr.cells;
+        //第一列为单选按钮，从1开始为item内容
+        //按照顺序进行获取每个字段的值
+        var id = tds[1].innerHTML;
+        var oilCanCode = tds[2].innerHTML;
+        var oilCanName = tds[3].innerHTML;
+        var oilCanType = tds[4].innerHTML;
+        var oilProductName = tds[5].innerHTML;
+        var districtName = tds[6].innerHTML;
+        var stationName = tds[7].innerHTML;
+        var oilCanHeight = tds[8].innerHTML;
+        var oilCanVolumn = tds[9].innerHTML;
+        var oilCanStatus = tds[10].innerHTML;
+        var checkTime = tds[11].innerHTML;
+
+        document.getElementById("update_id").value = id;
+        document.getElementById("update_oilCanCode").value = oilCanCode;
+        document.getElementById("update_oilCanName").value = oilCanName;
+        document.getElementById("update_oilCanType").value = oilCanType;
+        document.getElementById("update_oilCanHeight").value = oilCanHeight;
+        document.getElementById("update_oilCanVolumn").value = oilCanVolumn;
+        document.getElementById("update_oilCanStatus").value = oilCanStatus;
+        document.getElementById("update_checkTime").value = checkTime;
+
+        jQuery.each(districtList, function (i, item) {
+            if (districtName == item) {
+                $("#update_districtName_selection").val(districtName);
+                return false;
+            }
+        });
+
+        jQuery.each(districtList, function (i, item) {
+            if (stationName == item) {
+                $("#update_oilStationName_selection").val(stationName);
+                return false;
+            }
+        });
+
+        jQuery.each(oilProductList, function (i, item) {
+            if (districtName == item) {
+                $("#update_oilProduct_selection").val(oilProductName);
+                return false;
+            }
+        });
+
+    }
+
+    function updateOilCan(rowRadio) {
+
+        var id = document.getElementById("update_id").value;
+        var oilCanCode = document.getElementById("update_oilCanCode").value;
+        var oilCanName = document.getElementById("update_oilCanName").value;
+        var oilCanType = document.getElementById("update_oilCanType").value;
+        var oilProductName = document.getElementById("update_oilProduct_selection").value;
+        var districtName = document.getElementById("update_districtName_selection").value;
+        var stationName = document.getElementById("update_oilStationName_selection").value;
+        var oilCanHeight = document.getElementById("update_oilCanHeight").value;
+        var oilCanVolumn = document.getElementById("update_oilCanHeight").value;
+        var oilCanStatus = document.getElementById("update_oilCanStatus").value;
+        var checkTime = document.getElementById("update_checkTime").value;
+
+        var requestData = "id=" + id
+                + "&oilCanCode=" + oilCanCode
+                + "&oilCanName=" + oilCanName
+                + "&oilCanType=" + oilCanType
+                + "&oilProductName=" + oilProductName
+                + "&districtName=" + districtName
+                + "&stationName=" + stationName
+                + "&oilCanHeight=" + oilCanHeight
+                + "&oilCanVolumn=" + oilCanVolumn
+                + "&oilCanStatus=" + oilCanStatus
+                + "&checkTime=" + checkTime;
+
+        jQuery.ajax({
+            type: "POST",
+            url: "../user/oil/updateOilCan",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            data: requestData,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                        $("#updateOilCanModal").modal('hide');
+                    default:
+                        ;
+                        $("#updateResultMessage").text(data.retDesc);
+                        $('#updateConfirmModal').modal();
+
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+        });
+
+    }
+
+    function addOilCan() {
+
+        var oilCanCode = document.getElementById("oilCanCode").value;
+        var oilCanName = document.getElementById("oilCanName").value;
+        var oilCanType = document.getElementById("oilCanType").value;
+        var oilProductName = document.getElementById("oilProduct_selection").value;
+        var districtName = document.getElementById("districtName_selection").value;
+        var stationName = document.getElementById("oilStationName_selection").value;
+        var oilCanHeight = document.getElementById("oilCanHeight").value;
+        var oilCanVolumn = document.getElementById("oilCanHeight").value;
+        var oilCanStatus = document.getElementById("oilCanStatus").value;
+        var checkTime = document.getElementById("checkTime").value;
+
+        var requestData = "oilCanCode=" + oilCanCode
+                + "&oilCanName=" + oilCanName
+                + "&oilCanType=" + oilCanType
+                + "&oilProductName=" + oilProductName
+                + "&districtName=" + districtName
+                + "&stationName=" + stationName
+                + "&oilCanHeight=" + oilCanHeight
+                + "&oilCanVolumn=" + oilCanVolumn
+                + "&oilCanStatus=" + oilCanStatus
+                + "&checkTime=" + checkTime;
+
+        jQuery.ajax({
+            type: "POST",
+            url: "../user/oil/addOilCan",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            data: requestData,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                        $("#addOilCanModal").modal('hide');
+                    default:
+                        ;
+                        $("#updateResultMessage").text(data.retDesc);
+                        $('#updateConfirmModal').modal();
+
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+        });
+
+    }
+
+    var deleteId = -1;
+    function deleteOilTypeModal(row) {
+        $('#deleteConfirmModal').modal();
+        var tr = row.parentNode;
+        var tds = tr.cells;
+        //第一列为单选按钮，从1开始为item内容
+        //按照顺序进行获取每个字段的值
+        var id = tds[1].innerHTML;
+        deleteId = id;
+    }
+
+    function deleteElement() {
+        var request = "id=" + deleteId;
+        $.ajax({
+            type: "POST",
+            url: "../user/oil/deleteOilCan",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            data: request,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                        $("#deleteConfirmModal").modal('hide');
+                    default:
+                        ;
+                        $("#updateResultMessage").text(data.retDesc);
+                        $('#updateConfirmModal').modal();
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+
+        });
+    }
+
+
+    function getOilCanListAjax(getOilCanListRequest) {
+        $.ajax({
+            type: "GET",
+            url: "../user/oil/getOilCanList",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            data: getOilCanListRequest,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                        var str = '';
+                        jQuery.each(data.list, function (i, item) {
+                            str += "<tr>"
+                                    + "<td><input class='radio' type='radio' name='oilTypeRadio' id='oilTypeRadio_item.id' onclick='updateOilCanModal(this)'/></td>"
+                                    + "<td name='id' style='display: none'>" + item.id + "</td>"
+                                    + "<td name='oilCanode'>" + item.oilCanCode + "</td>"
+                                    + "<td name='oilCanName'>" + item.oilCanName + "</td>"
+                                    + "<td name='oilCanType'>" + item.oilCanType + "</td>"
+                                    + "<td name='oilProductName'>" + item.oilProductName + "</td>"
+                                    + "<td name='districtName'>" + item.districtName + "</td>"
+                                    + "<td name='stationName'>" + item.stationName + "</td>"
+                                    + "<td name='oilCanHeight'>" + item.oilCanHeight + "</td>"
+                                    + "<td name='oilCanVolumn'>" + item.oilCanVolumn + "</td>"
+                                    + "<td name='oilCanStatus'>" + item.oilCanStatus + "</td>"
+                                    + "<td name='alarmStatus'>" + item.alarmStatus + "</td>"
+                                    + "<td name='checkTime'>" + item.checkTime + "</td>"
+                                    + "<td onclick='deleteOilTypeModal(this)'>" + '删除' + "</td>"
+                                    + "</tr>";
+                        });
+                        $("#oilCanList tbody").html(str);
+                        break;
+                    default:
+                        alert(data.retDesc);
+                        break;
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+
+        });
+    }
+
+    var districtList = new Array();
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "../user/oil/getDistrictList",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                        var str = '';
+                        jQuery.each(data.list, function (i, item) {
+                            str += "<option value='" + item.districtName + "'>" + item.districtName + "</option>";
+                            districtList.push(item.districtName);
+                        });
+
+                        $("#districtName_selection").html(str);
+                        $("#filter_districtName_selection").html(str);
+                        $("#update_districtName_selection").html(str);
+                        break;
+                    default:
+                        alert(data.retDesc);
+                        break;
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+
+        });
+
+    });
+    //展示油站的条件是首先根据筛选的区域名称，再筛选对应的站点名称
+    //用户点击分两种(1) 显示点击区域后选择站点(2)先点击站点后点击区域，针对(2)需要提示用户首先选择区域再选择站点
+    var oilStationList = new Array();
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "../user/oil/getOilStationList",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                        var str = '';
+                        jQuery.each(data.list, function (i, item) {
+                            str += "<option value='" + item.stationName + "'>" + item.stationName + "</option>";
+                            oilStationList.push(item.stationName);
+                        });
+
+                        $("#oilStationName_selection").html(str);
+                        $("#filter_oilStationName_selection").html(str);
+                        $("#update_oilStationName_selection").html(str);
+                        break;
+                    default:
+                        alert(data.retDesc);
+                        break;
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+
+        });
+
+    });
+
+    var oilProductList = new Array();
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "../user/oil/getOilProductList",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                        var str = '';
+                        jQuery.each(data.list, function (i, item) {
+                            str += "<option value='" + item.oilProductName + "'>" + item.oilProductName + "</option>";
+                            oilProductList.push(item.oilProductName);
+                        });
+
+                        $("#oilProduct_selection").html(str);
+                        $("#filter_oilProduct_selection").html(str);
+                        $("#update_oilProduct_selection").html(str);
+                        break;
+                    default:
+                        alert(data.retDesc);
+                        break;
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

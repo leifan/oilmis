@@ -1,0 +1,13 @@
+
+1. java web项目通过tomcat这个web容器来启动，本机中tomcat安装的位置在C:\Program Files\apachen\Tomcat 7.0中。
+
+2. tomcat的webapps目录是用来存放实际项目的编译之后的文件信息的，tomcat启动后会访问该路径下对应的class或者js文件来渲染页面。
+
+3. 自然首先需要对java项目进行编译成class文件，这个使用的是maven工具。
+
+4. 不可能每次把项目编译后再移动到webapps中，这样子太麻烦了，所以tomcat的server.xml文件中可以指定项目的路径地址，这个是通过
+
+ <Context docBase="C:\Program Files\apachen\Tomcat 7.0\wtpwebapps\account" path="" reloadable="true"/>
+
+这个标签来设置的，所以这里直接把在D:\work\oilmis 目录运行mvn package生成的target\oilmis作为docBase目录，target\oilmis实际就是生成的class文件位置。
+

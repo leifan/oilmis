@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="js/jquery/jquery-2.0.3.min.js"></script>
+
+</head>
+<body>
+
+<script>
+
+	jQuery(document).ready(function(){
+
+		var time = 
+		
+		setInterval("refresh()","3000");
+		
+
+	});
+
+	function refresh(){
+			
+			another = window.open("http://www.jianshu.com/p/f6bc33ff18b9");
+			//another = window.open("http://www.jianshu.com/p/f6bc33ff18b9","_blank","height=120,width=350,scrollbars=no,resizable=yes,left=231,top=196,status=no,toolbar=no,menubar=no");
+			//window.opener=null;
+			//window.open('','_self');
+			//another.setTimeout("wait()","3000");
+			//another.location.href="http://www.jianshu.com/p/f6bc33ff18b9";
+			setTimeout("wait()","1000");
+			another.close();
+
+	}
+	function wait(){
+	}
+
+</script>
+
+	<div id="slow"> show</div>
+	<!-- <div>
+		<iframe id="muling1" src="http://www.jianshu.com/p/e355f4a66ab4" width="500" height="1000"></iframe>
+	</div> -->
+
+</body>
+</html>

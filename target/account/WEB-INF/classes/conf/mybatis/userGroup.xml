@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserGroup">
+
+	<resultMap id="BaseResultMap" type="UserGroup">
+		<id column="id" jdbcType="DECIMAL" property="id" />
+		<result column="group_id" jdbcType="VARCHAR" property="groupId" />
+		<result column="group_name" jdbcType="VARCHAR" property="groupName" />
+		
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updater" jdbcType="VARCHAR" property="updater" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+	</resultMap>
+	
+	<select id = "findEntityByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from tb_user_group 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null" >
+				id = #{id}
+			</if>
+			<if test="groupId != null" >
+				and group_id = #{groupId}
+			</if>
+			<if test="groupName != null" >
+				and group_name = #{groupName}
+			</if>
+		</trim>
+	</select>
+	
+	<insert id="addEntity" parameterType="java.util.Map" >
+		insert into tb_user_group
+		(group_id,group_name,creator,create_time,updater,update_time)
+		values(#{groupId},#{groupName},#{creator},#{createTime},#{updater},#{updateTime})
+	</insert>
+	
+	<update id="updateEntityById" parameterType="java.util.Map">
+	
+		update tb_user_group
+		<trim prefix="set" prefixOverrides=",">
+			<if test="groupId != null" >
+				, group_id = #{groupId}
+			</if>
+			<if test="groupName != null" >
+				, group_name = #{groupName}
+			</if>
+			<if test="updater != null" >
+				, updater = #{updater}
+			</if>
+			<if test="updateTime != null" >
+				, update_time = #{updateTime}
+			</if>
+		</trim>
+		where id =#{id}
+	</update>
+	
+	<delete id="deleteEntityById" parameterType="java.util.Map">
+		delete from tb_user_group 
+		where id=#{id}
+		limit 1
+	</delete>
+	
+</mapper>

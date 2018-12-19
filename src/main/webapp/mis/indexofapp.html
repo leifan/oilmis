@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+<title>管理系统</title>
+<link rel="stylesheet" href="bootstrap-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/main.css">
+
+
+</head>
+
+<body>
+
+	<div class="container-fluid">
+
+		<!--用div替代padding-top更好自适应-->
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<h2>欢迎进入管理系统</h2>
+			</div>
+		</div>
+
+		<div class="row clearfix">
+			<!--左侧-->
+			<!--用div替代padding-left更好自适应 -->
+			<div class="col-md-1 column"></div>
+			
+			<div class="col-md-6 column" style="border:1px solid grey">
+				
+				<!-- 最上面一行距离边框的距离 -->
+				<div class="row" style="padding-top:10px">
+				</div>
+				
+				<div class="row">
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<a href="/mis/index.html"><img src="img/index/jianCeMoShi.jpg"
+								class="img-circle"></a>
+							<p align="center">监测模式</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/sheZhiMoShi.jpg" class="img-circle">
+							<p align="center">设置模式</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/zhenDuanMoShi.jpg" class="img-circle">
+							<p align="center">诊断模式</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/kuCunBaoGao.jpg" class="img-circle">
+							<p align="center">库存报告</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/banZuBaoGao.jpg" class="img-circle">
+							<p align="center">班组报告</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/jinYouBaoGao.jpg" class="img-circle">
+							<p align="center">进油报告</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<!--用div替代padding-left更好自适应-->
+					<!-- <div class="col-md-3"></div> -->
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/liShiBaoJing.jpg" class="img-circle">
+							<p align="center">历史报警</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/liShiQuXian.jpg" class="img-circle">
+							<p align="center">历史曲线</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/ceLouJiLu.jpg" class="img-circle">
+							<p align="center">侧漏记录</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<img src="img/index/guanRongBiaoDing.jpg" class="img-circle">
+							<p align="center">罐容标定</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<a onclick="$('#loginAndlogout').modal();"><img src="img/index/yongHuZhuCe.jpg" class="img-circle"></a>
+							<p align="center">用户登录</p>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<a onclick="$('#modifyPassword').modal();"><img src="img/index/xiuGaiMiMa.jpg" class="img-circle"></a>
+							<p align="center">修改密码</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!--右侧-->
+			<div class="col-md-4 column" style="border:1px solid grey">
+				<div class="row clearfix">
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<a href="/mis/index.html"><img src="img/index/usercenter.jpg"
+								class="img-circle"></a>
+							<p align="center">检测模式</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<img src="img/index/usercenter.jpg" class="img-circle">
+							<p align="center">设置模式</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<img src="img/index/usercenter.jpg" class="img-circle">
+							<p align="center">诊断模式</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="side-bar">
+			<a href="/mis/indexofapp.html">首页</a>
+		</div>
+	</div>
+	
+	<!--登录的模态框-->
+	<div class="modal fade" id="loginAndlogout" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addOilTypeModalLabel">登录页面</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label for="username">用户名</label> <input type="text"
+								class="form-control" id="userName" placeholder="请输入用户名">
+						</div>
+						<div class="form-group">
+							<label for="password">密 码</label> <input type="text"
+								class="form-control" id="password" placeholder="请输入密码">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button onclick="javascript:login()" type="button"
+						class="btn btn-primary">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--修改密码-->
+	<div class="modal fade" id="modifyPassword" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addOilTypeModalLabel">修改密码页面</h4>
+				</div>
+				<div class="modal-body">
+					<form role="form">
+						<div class="form-group">
+							<label for="username">用户名</label> <input type="text"
+								class="form-control" id="userName" placeholder="请输入用户名">
+						</div>
+						<div class="form-group">
+							<label for="password">密 码</label> <input type="text"
+								class="form-control" id="password" placeholder="请输入密码">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button onclick="javascript:modifyPassword()" type="button"
+						class="btn btn-primary">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+</body>
+
+<!--引入js文件-->
+<script src="js/jquery/jquery-2.0.3.min.js"></script>
+<script src="bootstrap-dist/js/bootstrap.min.js"></script>
+<script src="js/login.js"></script>
+<script src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+<script>
+
+</script>
+</html>

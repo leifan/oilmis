@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="always" name="referrer">
+<meta http-equiv="cache-control" content="max-age">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>brite管理系统</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="stylesheet" type="text/css" href="css/cloud-admin.css">
+<link rel="stylesheet" type="text/css" href="css/themes/default.css"
+	id="skin-switcher">
+<link rel="stylesheet" type="text/css" href="css/responsive.css">
+<link rel="stylesheet" type="text/css" href="css/circle.percent.css">
+<!-- STYLESHEETS -->
+<!--[if lt IE 9]>
+    <script src="js/flot/excanvas.min.js"></script>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- ANIMATE -->
+<link rel="stylesheet" type="text/css"
+	href="css/animatecss/animate.min.css" />
+
+</head>
+<body>
+	<header class="navbar clearfix" id="header">
+		<div class="container">
+			<ul class="nav navbar-nav pull-right">
+				<li class="dropdown user" id="header-user">
+					<a style='font-size:14px' href="#" class="dropdown-toggle" data-toggle="dropdown">个人中心<i class="fa fa-angle-down"></i></a>
+					<ul class="dropdown-menu">
+						<li><a href="/mis/me.html"><i class="fa fa-user"></i>个人信息</a></li>
+						<li><a href="/mis/login.html"><i class="fa fa-power-off"></i>退出登录</a></li>
+					</ul>
+				</li>
+				<li><img id="systemAlarmSystemImg" src="img/index/noAlarm.png" onclick="javascript:systemAlarmReport()" /></li>
+			</ul>
+		</div>
+	</header>
+	<section id="page">
+		<!-- SIDEBAR -->
+		<div id="sidebar" class="sidebar">
+			<div class="sidebar-menu nav-collapse">
+				<ul>
+					<!-- 需要二级目录时给li添加 class="has-sub" -->
+					<li><a href="/mis/index.html" target="rightFrame"> <i
+							class="fa fa-tachometer fa-fw"></i> <span class="menu-text">首页</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:multiOilCan()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">监测模式</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:settingMode()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">设置模式</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:userInfoManager()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">诊断模式</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:shiftWorkReport()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">班组报告</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:storeageReport()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">库存报告</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:oilCanFeedingReport()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">进油报告</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:oilCanAlarmReport()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">历史报警</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:userInfoManager()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">历史曲线</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:userInfoManager()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">侧漏记录</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:userInfoManager()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">罐容标定</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:userInfoManager()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">用户登录</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+					<li>
+						<a href="javascript:userInfoManager()"> 
+							<i class="fa fa-table fa-fw"></i> 
+							<span class="menu-text">用户注册</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 使用iframe形式实现 -->
+		<!-- <div id="main-content">
+			<div class="container">
+				<div class="row">
+					<div id="content" class="col-lg-12">
+							<iframe id="rightFrame" name="rightFrame" frameborder=0
+								marginwidth=0 marginheight=0 onLoad="iFrameHeight()"
+								width="100%" height="100%" scrolling="no"> 
+							</iframe>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div id="main-content">
+			<div class="container">
+				<div class="row">
+					<div id="right_content" class="col-lg-12"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<script src="js/jquery/jquery-2.0.3.min.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="bootstrap-dist/js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+	<script src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
+
+	<!--展示百分比插件-->
+	<script type="text/javascript" src="js/circle_percent.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/Chart-2.1.6.js"></script>
+	
+	<script>
+	
+		function settingMode(){
+			/* $("#right_content").load("./settings/userSettings.html"); */
+			window.location.href="./settings/index.html";
+		}
+		
+		function userInfoManager() {
+			/* document.getElementById("right_content").load(
+					"./userSettingForm.html"); */
+			$("#right_content").load("./userSettingForm.html");
+		}
+		
+		function multiOilCan() {
+			$("#right_content").load("./multiOilCan.html");
+		}
+		
+		/* 库存报告 */
+		function storeageReport() {
+			$("#right_content").load("./oilCanStoreageList.html");
+		}
+		
+		/* 进油报告 */
+		function oilCanFeedingReport() {
+			$("#right_content").load("./oilCanFeedingReport.html");
+		}
+		
+		/* 报警报告 */
+		function oilCanAlarmReport() {
+			$("#right_content").load("./oilCanAlarmReport.html");
+		}
+		
+		/* 报警报告 */
+		function shiftWorkReport() {
+			$("#right_content").load("./shiftWorkReport.html");
+		}
+		
+		/* 首页报警按钮详情页，配合checkAlarmInfo */
+		function systemAlarmReport() {
+			$("#right_content").load("./systemAlarmReport.html");
+		}
+		
+		/*每次进入查询是否有报警，左侧栏*/
+		function checkSystemAlarmInfo(){
+			$("#systemAlarmSystemImg").attribute("src",statusIcon);
+		}
+		
+	</script>
+</body>
+</html>

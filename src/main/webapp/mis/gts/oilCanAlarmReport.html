@@ -1,0 +1,134 @@
+<meta http-equiv="cache-control" content="max-age">
+<div class="container">
+	<div class="row">
+		<form class="form-horizontal" role="form">
+			<fieldset>
+				<legend></legend>
+			</fieldset>
+			<div class="form-group">
+				<label class="col-sm-1 control-label" for="beginTime">开始时间</label>
+				<div class="col-sm-2">
+					<input class="form-control" id="beginTime" type="text"/>
+				</div>
+
+				<label class="col-sm-1 control-label" for="endTime">结束时间</label>
+				<div class="col-sm-2">
+					<input class="form-control" id="endTime" type="text"/>
+				</div>
+
+				<a class="btn btn-danger" onclick="javascript:searchRecord()">点击查询</a>
+			</div>
+		</form>
+	</div>
+
+	<div class="row">
+		<fieldset>
+			<legend></legend>
+		</fieldset>
+		<div class="row ">
+			<div class="col-md-8">
+				<div class="box border pink">
+					<div class="box-title">
+						<h4>
+							<i class="fa fa-table"></i>历史报警记录
+						</h4>
+					</div>
+
+					<div class="box-body">
+						<table id="oilCanAlarmListTable" class="table table-striped table-hover ">
+							<thead>
+								<tr>
+									<th>报警日期</th>
+									<th>报警时间</th>
+									<th>罐号</th>
+									<th>报警编码</th>
+									<th>确认日期</th>
+									<th>确认人</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="separator"></div>
+		<div class="footer-tools">
+			<span class="go-top"> <i class="fa fa-chevron-up"></i> Top
+			</span>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	function getOilCanAlarmList(requestData) {
+		
+		jQuery.ajax({
+					url : "../../user/oil/gts/getOilCanAlarmList",
+					data : requestData,
+					contentType : "application/x-www-form-urlencoded",
+					dataType : "json",
+					success : function(response) {
+						switch (response.retCode) {
+						case 200:
+							var str = "";
+		                    jQuery.each(response.list,function(i,item){
+		                    	str +="<tr>"
+		                    		+ "<td>"+item.alarmDate+"</td>"
+		                    		+ "<td>"+item.alarmTime+"</td>"
+		                    		+ "<td>"+item.oilCanName+"</td>"
+		                    		+ "<td>"+item.alarmName+"</td>"
+		                    		+ "<td>"+item.confirmTime+"</td>"
+		                    		+ "<td>"+item.confirmUser+"</td>"
+		                    		+"</tr>";
+		                    });
+		                    jQuery("#oilCanAlarmListTable tbody").html(str);
+							break;
+						default:
+							alert(response.retDesc);
+						}
+					},
+					error : function(response) {
+						alert("获取数据失败，请稍后重试");
+					}
+				});
+
+	}
+
+	function searchRecord() {
+
+		var beginDate = jQuery.trim(document.getElementById("beginTime").value);
+		var endDate = jQuery.trim(document.getElementById("endTime").value);
+
+		if (beginDate.length == 0) {
+			alert("请选择开始时间");
+			return;
+		}
+
+		if (endDate.length == 0) {
+			alert("请选择结束时间");
+			return;
+		}
+
+		if (beginDate >= endDate) {
+			alert("开始时间不能大于等于结束时间");
+			return;
+		}
+
+		var requestData = '';
+		requestData = {
+			beginDate : beginDate,
+			endDate : endDate,
+		}
+
+		getOilCanAlarmList(requestData);
+
+	}
+
+</script>
+
+
+   

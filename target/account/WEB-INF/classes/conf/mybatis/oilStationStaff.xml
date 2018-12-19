@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OilStationStaff">
+
+	<resultMap id="BaseResultMap" type="OilStationStaff">
+		<id column="id" jdbcType="DECIMAL" property="id" />
+		<result column="district_name" jdbcType="VARCHAR" property="districtName" />
+		<result column="oil_station_name" jdbcType="VARCHAR" property="oilStationName" />
+		<result column="staff_id" jdbcType="VARCHAR" property="staffId" />
+		<result column="staff_name" jdbcType="VARCHAR" property="staffName" />
+		<result column="staff_type" jdbcType="VARCHAR" property="staffType" />
+		<result column="tel" jdbcType="VARCHAR" property="tel" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updater" jdbcType="VARCHAR" property="updater" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+
+	</resultMap>
+	
+	<select id = "findEntityListByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from tb_oil_station_staff 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="id != null" >
+				and id = #{id}
+			</if>
+			<if test="districtName != null" >
+				and district_name = #{districtName}
+			</if>
+			<if test="oilStationName != null" >
+				and oil_station_name = #{oilStationName}
+			</if>
+			<if test="staffId != null" >
+				and staff_id = #{staffId}
+			</if>
+			<if test="staffName != null" >
+				and staff_name = #{staffName}
+			</if>
+			<if test="staffType != null" >
+				and staff_type = #{staffType}
+			</if>
+			<if test="tel != null" >
+				and tel = #{tel}
+			</if>
+			<if test="phone != null" >
+				and phone = #{phone}
+			</if>
+		</trim>
+	</select>
+	
+	<insert id="addEntity" parameterType="java.util.Map" >
+		insert into tb_oil_station_staff
+		(staff_id,staff_name,staff_type,district_name,oil_station_name,tel,phone,creator,create_time,updater,update_time)
+		values(#{staffId},#{staffName},#{staffType},#{districtName},#{oilStationName},#{tel},#{phone},#{creator},#{createTime},#{updater},#{updateTime})
+	</insert>
+	
+	<update id="updateEntityById" parameterType="java.util.Map">
+		update tb_oil_station_staff
+		<trim prefix="set" prefixOverrides=",">
+			<if test="staffId != null" >
+				, staff_id = #{staffId}
+			</if>
+			<if test="staffName != null" >
+				, staff_name = #{staffName}
+			</if>
+			<if test="staffType != null" >
+				, staff_type = #{staffType}
+			</if>
+			<if test="districtName != null" >
+				, district_name = #{districtName}
+			</if>
+			<if test="staffType != null" >
+				, oil_station_name = #{oilStationName}
+			</if>
+			<if test="tel != null" >
+				, tel = #{tel}
+			</if>
+			<if test="phone != null" >
+				, phone = #{phone}
+			</if>
+			<if test="updater != null" >
+				, updater = #{updater}
+			</if>
+			<if test="updateTime != null" >
+				, update_time = #{updateTime}
+			</if>
+		</trim>
+		where id =#{id} 
+	</update>
+	
+	<delete id="deleteEntityById" parameterType="java.util.Map">
+	
+		delete from tb_oil_station_staff 
+		where id=#{id}
+		limit 1
+		
+	</delete>
+	
+</mapper>

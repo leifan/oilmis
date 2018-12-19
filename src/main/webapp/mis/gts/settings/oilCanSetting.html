@@ -1,0 +1,324 @@
+<!-- 添加或者更新储罐信息 -->
+<meta http-equiv="cache-control" content="max-age">
+<div class="container">
+	<div class="row">
+		<fieldset>
+			<legend></legend>
+		</fieldset>
+		<div class="row ">
+			<div class="col-md-4">
+				<div class="box border pink">
+					<div class="box-title">
+						<h4>
+							<i class="fa fa-table"></i>油罐列表
+						</h4>
+						<div class="tools">
+							<a onclick="$('#addComModal').modal();" data-toggle="modal">新增</a>
+						</div>
+					</div>
+
+					<div class="box-body">
+						<table id="oilCanListTable" class="table table-striped table-hover ">
+							<thead>
+								<tr>
+									<th></th>
+									<th>罐号</th>
+									<th>油品</th>
+									<th>地址</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-6">
+				<div class="box border pink">
+					<div class="box-title">
+						<h4>
+							<i class="fa fa-table"></i>油罐详情
+						</h4>
+					</div>
+
+					<div class="box-body">
+						<table id="oilCanDetailTable" class="table table-striped table-hover ">
+							<thead>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="separator"></div>
+		<div class="footer-tools">
+			<span class="go-top"> <i class="fa fa-chevron-up"></i> 返回顶部
+			</span>
+		</div>
+	</div>
+</div>
+
+<!-- 增加COM boostrap模态框-->
+<div class="modal fade" id="addComModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新增储罐</h4>
+			</div>
+			<div class="modal-body">
+
+				<form role="form">
+					<div class="form-group">
+						<label for="userName">通道号</label> 
+						<input type="text" class="form-control" id="channelId" name="channelId" placeholder="请输入通道号，如#1">
+					</div>
+					<div class="form-group">
+						<label for="port_selection">端口号</label>
+						<div>
+							<select id="port_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="protocol_selection">设备协议</label>
+						<div>
+							<select id="protocol_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="comPeriod">通信周期(ms)</label> 
+						<input type="text" class="form-control" id="comPeriod" name="comPeriod" placeholder="请输入通信周期，单位毫秒">
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button onclick="javascript:addCom()" type="button"
+					class="btn btn-primary">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 增加COM boostrap模态框-->
+<div class="modal fade" id="updateOilCanModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">更新储罐</h4>
+			</div>
+			<div class="modal-body">
+
+				<form role="form">
+					<div class="form-group">
+						<label for="userName">通道号</label> 
+						<input type="text" class="form-control" id="channelId" name="channelId" placeholder="请输入通道号，如#1">
+					</div>
+					<div class="form-group">
+						<label for="port_selection">端口号</label>
+						<div>
+							<select id="port_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="protocol_selection">设备协议</label>
+						<div>
+							<select id="protocol_selection" class="selectpicker form-control"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="comPeriod">通信周期(ms)</label> 
+						<input type="text" class="form-control" id="comPeriod" name="comPeriod" placeholder="请输入通信周期，单位毫秒">
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button onclick="javascript:addCom()" type="button"
+					class="btn btn-primary">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+	$(document).ready(function() {
+		getOilCanList();
+	});
+
+	function getOilCanList(requestData) {
+		
+		jQuery.ajax({
+					url : "../../../user/oil/getOilCanList",
+					data : requestData,
+					contentType : "application/x-www-form-urlencoded",
+					dataType : "json",
+					success : function(response) {
+						switch (response.retCode) {
+						case 200:
+							var str = "";
+		                    jQuery.each(response.list,function(i,item){
+		                    	str +="<tr>"
+		                    		+ "<td><input class='radio' type='radio' name='oilTypeRadio' id='oilTypeRadio_item.id' onclick='getOilCanDetail(\""+item.oilCanName+"\")'/></td>"
+		                    		+ "<td>"+item.oilCanName+"</td>"
+		                    		+ "<td>"+item.oilProductName+"</td>"
+		                    		+ "<td>"+"110"+"</td>"
+		                    		+"</tr>";
+		                    });
+		                    jQuery("#oilCanListTable tbody").html(str);
+							break;
+						default:
+							alert(response.retDesc);
+						}
+					},
+					error : function(response) {
+						alert("获取数据失败，请稍后重试");
+					}
+				});
+
+	}
+
+	function getOilCanDetail(id){
+		oilCanDetailAjax(id);
+	}
+	
+	function oilCanDetailAjax(oilCanName){
+		
+		var request = "oilCanName="+encodeURIComponent(oilCanName);
+		jQuery.ajax({
+					url : "../../../user/oil/getOilCanDetail",
+					data : request,
+					contentType : "application/x-www-form-urlencoded",
+					dataType : "json",
+					success : function(response) {
+						switch (response.retCode) {
+						case 200:
+							var str = '';
+							var item = response.detail;
+							
+							str += "<tr>"
+								+		"<th>油罐编号</th>"
+								+		"<td>"+item.oilCanName+"</td>"
+								+		"<th>通信通道</th>"
+								+		"<td>"+item.oilCanName+"</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+			"<th>液位计地址</th>"
+								+			"<td>"+item.startTime+"</td>"
+								+			"<th>油品</th>"
+								+			"<td>"+item.endTime+"</td>"
+								+  "</tr>"
+								+  "<tr>"
+								+			"<th>标准密度</th>"
+								+			"<td>"+item.startLiquidLevel+"</td>"
+								+			"<th></th>"
+								+			"<td></td>"	
+								+	"</tr>"
+								+	"<tr>"
+								+			"<th>油高上限</th>"
+								+			"<td>"+item.startWaterLevel+"</td>"
+								+			"<th>油高上上限</th>"
+								+			"<td>"+item.stopWaterLevel+"</td>"
+								+	"</tr>"
+								+	"<tr>"
+								+			"<th>油高上限</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>油高下下限</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>水高上限</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>水高上上限</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>温度上限</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>温度下限</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>流速上限</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>流速下限</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>泄露度量</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>渗漏度量</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>罐高度</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>安全容量</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>油高无效区</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>参考油高</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>水高无效区</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>参考水高</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>油高偏移量</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th>水高偏移量</th>"
+								+			"<td>"+item.stopAverageTempate+"</td>"
+								+   "</tr>"
+								+	"<tr>"
+								+			"<th>修偏系数</th>"
+								+			"<td>"+item.startAverageTempate+"</td>"
+								+			"<th></th>"
+								+			"<td></td>"
+								+	"</tr>"	
+							jQuery("#oilCanDetailTable tbody").html(str);	
+							break;
+						default:
+							alert("获取详情信息失败");
+							break;
+						}
+					}
+				});
+	}
+	
+	/* 一组单选按钮控制 */
+	function SenFe_Code(sname,sid){ 
+	    if(sname.checked){ 
+	        /* sid.style.display="block";  */
+	        sname.style.display="block";
+	    }else{ 
+	        /* sid.style.display="none";  */
+	        sname.style.display="none";
+	    } 
+	} 
+	
+</script>
+
+
+   

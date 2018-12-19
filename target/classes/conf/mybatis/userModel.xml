@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserModel">
+
+    <resultMap id="BaseResultMap" type="UserModel">
+        <id column="id" jdbcType="DECIMAL" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="district_name" jdbcType="VARCHAR" property="districtName"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+        <result column="last_log_in_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+		<result column="last_log_in_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+		<result column="user_info" jdbcType="VARCHAR" property="userInfo"/>
+
+    </resultMap>
+
+    <select id="findEntityListByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from tb_user
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=DECIMAL}
+            </if>
+            <if test="userName != null">
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null">
+                and password = #{password,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="findEntityById" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select id,user_name,password,district_name,group_name,department_name,role,create_time,last_log_in_ip,last_log_in_time from tb_user
+  	where id = #{id,jdbcType=DECIMAL} 
+  </select>
+
+    <update id="updateEntity" parameterType="UserModel">
+        update tb_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="districtName != null">
+                district_name = #{districtName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentName != null">
+                department_name = #{departmentName,jdbcType=VARCHAR},
+            </if>
+             <if test="role != null">
+                role = #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                last_log_in_ip = #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginTime != null">
+                last_log_in_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userInfo != null">
+                user_info = #{userInfo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        <trim prefix="where" prefixOverrides="and">
+        	<if test="id != null">
+        		and id = #{id}
+        	</if>
+        	<if test="userName != null">
+        		and user_name = #{userName}
+        	</if>
+        </trim>
+    </update>
+
+    <insert id="addEntity" parameterType="java.util.Map">
+    insert into tb_user
+    (group_name,user_name,password,user_info,department_name,district_name,create_time,role)
+    values(#{groupName},#{userName},#{password},#{userInfo},#{departmentName},#{districtName},#{createTime},#{role})
+	</insert>
+	
+	<delete id="deleteEntity" parameterType="UserModel">
+        delete from tb_user where id = #{id}
+    </delete>
+    
+    <select id="findEntityByCond" parameterType="java.util.Map" resultMap="BaseResultMap">
+    
+    	select id,user_name,password,group_name,department_name,district_name,last_log_in_time,role,user_info from tb_user 
+    	<trim prefix="where" prefixOverrides="and|or">
+    		<if test="userName != null">
+    			and user_name = #{userName,jdbcType=VARCHAR}
+    		</if>
+    		<if test="password != null">
+    			and password = #{password,jdbcType=VARCHAR}
+    		</if>
+    		<if test="districtName != null">
+    			and district_name = #{districtName,jdbcType=VARCHAR}
+    		</if>
+    		<if test="departmentName != null">
+    			and department_name = #{departmentName,jdbcType=VARCHAR}
+    		</if>
+    		<if test="groupName != null">
+    			and group_name = #{groupName,jdbcType=VARCHAR}
+    		</if>
+    	</trim>
+    
+    </select>
+
+</mapper>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>油站员工管理页面</title>
+    <link rel="stylesheet" type="text/css" href="js/jquery-easyui-1.4.4/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="js/jquery-easyui-1.4.4/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="js/jquery-easyui-1.4.4/themes/color.css">
+    <link rel="stylesheet" type="text/css" href="js/jquery-easyui-1.4.4/demo/demo.css">
+    <script type="text/javascript" src="js/jquery-easyui-1.4.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-easyui-1.4.4/jquery.easyui.min.js"></script>
+</head>
+<script>
+
+    $.extend($.fn.validatebox.defaults.rules, {
+        number:{
+            validator: function(value){
+                return /[0-9]+/i.test(value);
+            },
+            message: '请输入数字'
+        },
+        idcard: {// 验证身份证
+            validator: function (value) {
+                return /^\d{15}(\d{2}[A-Za-z0-9])?$/i.test(value);
+            },
+            message: '身份证号码格式不正确'
+        },
+        minLength: {
+            validator: function (value, param) {
+                return value.length >= param[0];
+            },
+            message: '请输入至少（2）个字符.'
+        },
+        length: { validator: function (value, param) {
+            var len = $.trim(value).length;
+            return len >= param[0] && len <= param[1];
+        },
+            message: "输入内容长度必须介于{0}和{1}之间."
+        },
+        phone: {// 验证电话号码
+            validator: function (value) {
+                return /^((\d2,3)|(\d{3}\-))?(0\d2,3|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/i.test(value);
+            },
+            message: '座机号码格式不正确,请使用格式:020-88888888'
+        },
+        mobile: {// 验证手机号码
+            validator: function (value) {
+                return /^(13|15|18)\d{9}$/i.test(value);
+            },
+            message: '手机号码格式不正确'
+        },
+        intOrFloat: {// 验证整数或小数
+            validator: function (value) {
+                return /^\d+(\.\d+)?$/i.test(value);
+            },
+            message: '请输入数字，并确保格式正确'
+        },
+        currency: {// 验证货币
+            validator: function (value) {
+                return /^\d+(\.\d+)?$/i.test(value);
+            },
+            message: '货币格式不正确'
+        },
+        qq: {// 验证QQ,从10000开始
+            validator: function (value) {
+                return /^[1-9]\d{4,9}$/i.test(value);
+            },
+            message: 'QQ号码格式不正确'
+        },
+        integer: {// 验证整数 可正负数
+            validator: function (value) {
+                //return /^[+]?[1-9]+\d*$/i.test(value);
+
+                return /^([+]?[0-9])|([-]?[0-9])+\d*$/i.test(value);
+            },
+            message: '请输入整数'
+        },
+        age: {// 验证年龄
+            validator: function (value) {
+                return /^(?:[1-9][0-9]?|1[01][0-9]|120)$/i.test(value);
+            },
+            message: '年龄必须是0到120之间的整数'
+        },
+
+        chinese: {// 验证中文
+            validator: function (value) {
+                return /^[\\Α-\￥]+$/i.test(value);
+            },
+            message: '请输入中文'
+        },
+        english: {// 验证英语
+            validator: function (value) {
+                return /^[A-Za-z]+$/i.test(value);
+            },
+            message: '请输入英文'
+        },
+        unnormal: {// 验证是否包含空格和非法字符
+            validator: function (value) {
+                return /.+/i.test(value);
+            },
+            message: '输入值不能为空和包含其他非法字符'
+        },
+        username: {// 验证用户名
+            validator: function (value) {
+                return /^[a-zA-Z][a-zA-Z0-9_]{5,15}$/i.test(value);
+            },
+            message: '用户名不合法（字母开头，允许6-16字节，允许字母数字下划线）'
+        },
+        faxno: {// 验证传真
+            validator: function (value) {
+                //            return /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/i.test(value);
+                return /^((\d2,3)|(\d{3}\-))?(0\d2,3|0\d{2,3}-)?[1-9]\d{6,7}(\-\d{1,4})?$/i.test(value);
+            },
+            message: '传真号码不正确'
+        },
+        zip: {// 验证邮政编码
+            validator: function (value) {
+                return /^[1-9]\d{5}$/i.test(value);
+            },
+            message: '邮政编码格式不正确'
+        },
+        ip: {// 验证IP地址
+            validator: function (value) {
+                return /d+.d+.d+.d+/i.test(value);
+            },
+            message: 'IP地址格式不正确'
+        },
+        name: {// 验证姓名，可以是中文或英文
+            validator: function (value) {
+                return /^[\\Α-\￥]+$/i.test(value) | /^\w+[\w\s]+\w+$/i.test(value);
+            },
+            message: '请输入姓名'
+        },
+        date: {// 验证姓名，可以是中文或英文
+            validator: function (value) {
+                //格式yyyy-MM-dd或yyyy-M-d
+                return /^(?:(?!0000)[0-9]{4}([-]?)(?:(?:0?[1-9]|1[0-2])\1(?:0?[1-9]|1[0-9]|2[0-8])|(?:0?[13-9]|1[0-2])\1(?:29|30)|(?:0?[13578]|1[02])\1(?:31))|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)([-]?)0?2\2(?:29))$/i.test(value);
+            },
+            message: '清输入合适的日期格式'
+        },
+        msn: {
+            validator: function (value) {
+                return /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value);
+            },
+            message: '请输入有效的msn账号(例：abc@hotnail(msn/live).com)'
+        },
+        same: {
+            validator: function (value, param) {
+                if ($("#" + param[0]).val() != "" && value != "") {
+                    return $("#" + param[0]).val() == value;
+                } else {
+                    return true;
+                }
+            },
+            message: '两次输入的密码不一致！'
+        }
+    });
+
+</script>
+
+<script>
+
+    //新增油站员工
+    function addOilStationStaff(){
+
+        var oilStationCode = $("input[name='oilStationCode']").val();
+        var oilStationName = $("input[name='oilStationName']").val();
+        var staffId = $("input[name='staffId']").val();
+        var staffName = $("input[name='staffName']").val();
+        var staffType = $("input[name='staffType']").val();
+        var tel= $("input[name='tel']").val();
+        var phone= $("input[name='phone']").val();
+
+        //拼接字符串
+        var requestData = "oilStationCode="+oilStationCode+
+                        "&oilStationName="+oilStationName+
+                        "&staffId="+staffId+
+                        "&staffName="+staffName+
+                        "&staffType="+staffType+
+                        "&tel="+tel+
+                        "&phone="+phone;
+
+        $.ajax({
+            type:"POST",
+            url:"",
+            timeout:10000,
+            async:false,
+            contentType:"application/x-www-form-urlencoded",
+            data:requestData,
+            dataType:"text",
+            success:function(data){
+                switch(data.retcode){
+                    case 200:
+                        alter("添加员工成功");
+                        break;
+                    default:
+                        alert(data.retdesc);
+                        break;
+                }
+            },
+            error:function(data){
+                alert("页面提交出错，错误信息为："+data);
+            }
+
+        });
+    }
+
+</script>
+<body>
+    <h2>油站员工管理页面</h2>
+    <!--<p>Click the buttons on datagrid toolbar to do crud actions.</p>-->
+    
+    <table id="dg" title="油站员工" class="easyui-datagrid" style="width:700px;height:250px"
+            url="/user/oil/getOilStationStaffList"
+            toolbar="#toolbar" pagination="true"
+            rownumbers="true" fitColumns="true" singleSelect="true">
+        <thead>
+            <tr>
+                <th field="firstname" width="50">油站编码</th>
+                <th field="lastname" width="50">油站名称</th>
+                <th field="firstname" width="50">员工编号</th>
+                <th field="lastname" width="50">员工姓名</th>
+                <th field="phone" width="50">员工类型</th>
+                <th field="email" width="50">座机号码</th>
+                <th field="email" width="50">手机号码</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加新员工</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改员工信息</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除员工</a>
+    </div>
+    
+    <div id="dlg" class="easyui-dialog" style="width:400px;height:350px;padding:10px 20px"
+            closed="true" buttons="#dlg-buttons">
+        <div class="ftitle">员工信息编辑框</div>
+        <form id="fm" method="post" novalidate>
+            <div class="fitem">
+                <label>油站编码</label>
+                <input name="oilStationCode" class="easyui-textbox" data-options="required:true,validType:['number']">
+            </div>
+            <div class="fitem">
+                <label>油站名称</label>
+                <input name="oilStationName" class="easyui-textbox" required="true">
+            </div>
+            <div class="fitem">
+                <label>员工编号</label>
+                <input name="staffId" class="easyui-textbox" data-options="required:true,validType:['number']">
+            </div>
+            <div class="fitem">
+                <label>员工姓名</label>
+                <input name="staffName" class="easyui-textbox" data-options="required:true,validType:['chinese']">
+            </div>
+            <div class="fitem">
+                <label>员工类型</label>
+                <input name="staffType" class="easyui-textbox" data-options="required:true,validType:['chinese']">
+            </div>
+            <div class="fitem">
+                <label>座机号码</label>
+                <input name="tel" class="easyui-validatebox" data-options="required:true,validType:['phone']">
+            </div>
+            <div class="fitem">
+                <label>手机号码</label>
+                <input name="phone" class="easyui-validatebox" data-options="required:true,validType:['mobile']">
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="addOilStationStaff()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    <script type="text/javascript">
+        var url;
+        function newUser(){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','添加新员工');
+            $('#fm').form('clear');
+            url = 'save_user.php';
+        }
+        function editUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改员工信息');
+                $('#fm').form('load',row);
+                url = 'update_user.php?id='+row.id;
+            }
+        }
+        function saveUser(){
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        function destroyUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                    if (r){
+                        $.post('destroy_user.php',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+    </script>
+    <style type="text/css">
+        #fm{
+            margin:0;
+            padding:10px 30px;
+        }
+        .ftitle{
+            font-size:16px;
+            font-weight:bold;
+            padding:5px 0;
+            margin-bottom:10px;
+            border-bottom:1px solid #ccc;
+        }
+        .fitem{
+            margin-bottom:5px;
+        }
+        .fitem label{
+            display:inline-block;
+            width:80px;
+        }
+        .fitem input{
+            width:160px;
+        }
+
+    </style>
+</body>
+</html>

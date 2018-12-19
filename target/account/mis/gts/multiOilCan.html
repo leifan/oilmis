@@ -1,0 +1,556 @@
+
+<div class="container">
+	<div class="row">
+		<!-- <div class = "row" id="content" class="col-lg-12"> -->
+			<form class="form-horizontal" role="form">
+				<fieldset>
+					<legend></legend>
+				</fieldset>
+				<!-- <div class="form-group">
+					<div class="col-sm-10">
+					</div>
+					<a class="btn btn-primary btn-danger"
+						onclick="javascript:getOilCanList(2)">展示群管</a>
+				</div> -->
+			</form>
+			<fieldset>
+				<legend></legend>
+			</fieldset>
+			<!--表单-->
+			<div class="row">
+				<div id="groupOilCanList" class="col-md-12"></div>
+			</div>
+		<div class="footer-tools">
+			<span class="go-top"> <i class="fa fa-chevron-up"></i> Top
+			</span>
+		</div>
+	</div>
+</div>
+
+<!-- 模态框，弹框录入数据，弹框内容包括一些基本信息和最近的计量数据等 -->
+<div class="modal fade" id="updateOilCanModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">启动进油</h4>
+            </div>
+            <div class="modal-body">
+            	<table class='table'>
+            		<tr>
+            			<td colspan='5'>
+            				<table class='table table-bordered'>
+								<tbody>
+									<tr>
+									<th colspan='2'>油品名称</th>
+										<td><select id='oilProduct_selection' class='selectpicker form-control'></select></td>
+									</tr>
+									<tr>
+										<th colspan='2'>视温度</th>
+										<td><input class="form-control" id='inputShiTemperate'></td>
+									</tr>
+									<tr>
+										<th colspan='2'>视密度</th>
+										<td><input class="form-control" id='inputShiDenisity'></td>
+									</tr>
+									<tr>
+										<th colspan='2'>标准密度</th>
+										<td><input class="form-control" id='inputStandardDenisity'></td>
+									</tr>
+									<tr>
+										<td colspan='3' align='center'><a class='btn btn-primary' onclick='javascript:getOilCanList(2)'>查表计算</a>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<a class='btn btn-primary' onclick='javascript:getOilCanList(2)'>保存</a></td>
+									</tr>
+							
+									<!-- 校准 -->
+									<tr></tr>
+									<tr>
+										<th colspan='2'>视温度</th>
+										<td><input class="form-control" id='fixShiTemperate'></td>
+									</tr>
+									<tr>
+										<th colspan='2'>视密度</th>
+										<td><input class="form-control" id='fixStandardDenisity'></td>
+									</tr>
+									<tr>
+										<td colspan='3' align='center'><a class='btn btn-primary' onclick='javascript:getOilCanList(2)'>校准</a></td>
+									</tr>
+								</tbody>
+							</table>
+            			</td>
+            			
+            			<td></td>
+            			
+            			<td colspan='3'>
+            				<table id="recent10InputRecord"class='table table-bordered table-hover'>
+								<thead>
+									<tr>
+										<th>序号</th>
+                                		<th>体积</th>
+                                		<th>油高</th>
+                            		</tr>
+                       			</thead>
+                        		<tbody>
+                       			</tbody>
+							</table>
+            			</td>
+            		</tr>
+            	</table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+
+	//加载油罐列表列表
+	$(document).ready(function() {
+		getOilCanListAjax();
+		getOilProductList();
+		getRecent10InputRecord();
+	});
+	
+	/* 拉去最新的10条记录，供参考使用 */
+	function getRecent10InputRecord(){
+		$.ajax({
+			type: "GET",
+			url: "../../user/oil/getRecent10InputRecord",
+	        timeout: 20000,
+	       	contentType: "application/x-www-form-urlencoded",
+	        dataType: "json",
+	        success: function (data) {
+				switch (data.retCode) {
+					case 200:
+						var str = "";
+	                    jQuery.each(data.list,function(i,item){
+	                    	str +="<tr>"
+	                    		+ "<td>"+(i+1)+"</td>"
+	                    		+ "<td>"+item.netOilCapacity+"</td>"
+	                    		+ "<td>"+item.oilHeight+"</td>"
+	                    		+"</tr>";
+	                    });
+	                    $("#recent10InputRecord tbody").html(str);
+	                    break;
+					default:
+	                  	alert(data.retDesc);
+	                  	break;
+				}
+			},
+			error: function(data){
+				alert(data)
+			}
+		 });
+	}
+	
+	var oilProductList = new Array();
+    function getOilProductList() {
+        $.ajax({
+            type: "GET",
+            url: "../../user/oil/getOilProductList",
+            timeout: 20000,
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "json",
+            success: function (data) {
+                switch (data.retCode) {
+                    case 200:
+                    	var oilProductHtml ="";
+                        jQuery.each(data.list, function (i, item) {
+                        	oilProductHtml += "<option value='" + item.oilProductName + "'>" + item.oilProductName + "</option>";
+                            oilProductList.push(item.oilProductName);
+                        });
+                        $("#oilProduct_selection").html(oilProductHtml);
+                        break;
+                    default:
+                        alert(data.retDesc);
+                        break;
+                }
+            },
+            error: function (data) {
+                alert("页面提交出错，错误信息为：" + data);
+            }
+    });
+    }
+
+	//展示方式为图片加表格
+	function getOilCanList(type) {
+		var districtName = document.getElementById("filter_districtName_selection").value;
+		var oilStationName = document.getElementById("filter_oilStationName_selection").value;
+		var getOilCanListRequest = "districtName=" + districtName
+				+ "&oilStationName=" + oilStationName;
+		getOilCanListAjax(districtName, oilStationName, type);
+	}
+
+	/**type =1 带参数查询 type =2 全部*/
+	function getOilCanListAjax(districtName, oilStationName, type) {
+		var getOilCanListRequest = "";
+		if ((typeof (districtName) != "undefined" && districtName != "")
+				&& (typeof (oilStationName) != "undefined" && oilStationName != "")) {
+			var getOilCanListRequest = "districtName=" + districtName
+					+ "&oilStationName=" + oilStationName;
+		} else {
+			var getOilCanListRequest = "";
+		}
+
+		if (type == 2) {
+			var getOilCanListRequest = "";
+		}
+
+		$.ajax({
+				type : "GET",
+				url : "../../user/oil/getOilCanList",
+				timeout : 20000,
+				contentType : "application/x-www-form-urlencoded",
+				data : getOilCanListRequest,
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					switch (data.retCode) {
+					case 200:
+						var str = '';
+						var volumnPercent = 0;
+						var imgSrc;
+
+						jQuery.each(data.list,function(i, item) {
+
+							volumnPercent = (item.liquidLevel / item.oilCanVolumn).toFixed(3) * 100;
+							imgSrc = getImgSrc(volumnPercent);
+
+							str += "<div class='col-md-6'>"
+								+ "<div class='panel panel-default'>" 
+								+ "<div class='panel-body'>"
+								+ "<table class='table table-bordered table-hover'>"
+								+ "<tbody>" + "<tr>"
+								+ "<th>罐号</th>"
+								+ "<td><font color='red'>"
+								+ item.oilCanName
+								+ "</font></td>"
+								+ "<th>油品</th>"
+								+ "<td><font color='red'>"
+								+ item.oilProductName
+								+ "</font></td>"
+								+ "<th>空容积</th>"
+								+ "<td>"
+								+ item.emptyCapacity
+								+ "升</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<td rowspan='4' colspan='4' align='center'>"
+								+ "<img onclick='toSingleOilCanDetail(\""+item.oilCanName+"\")' src='" + imgSrc + "'>"
+								+ "</td>"
+								+ "<th>油高</th>"
+								+ "<td>"
+								+ item.liquidLevel
+								+ "毫米</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<th>油体积</th>"
+								+ "<td>"
+								+ item.netOilCapacity
+								+ "升</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<th>水高</th>"
+								+ "<td>"
+								+ item.waterLevel
+								+ "毫米</td>"
+								+ "</tr>"
+								+ "<tr>"
+								+ "<th>油温度</th>"
+								+ "<td>"
+								+ item.shiTemperate
+								+ "<tr>"
+								+ "<td colspan='4' align='center'>"
+								+ "已用容量"
+								+ volumnPercent
+								+ "%"
+								+ "</td>"
+								+ "<th>报警状态</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+								+ "</tr>"
+								+ "</tbody>"
+								+ "</table>"
+								+ "</div>"
+								+ "</div>" + "</div>";
+						});
+						$("#groupOilCanList").html(str);
+						break;
+					default:
+						alert(data.retDesc);
+						break;
+					}
+				},
+				error : function(data) {
+					alert("页面提交出错，错误信息为：" + data);
+				}
+			});
+
+	}
+
+	/**
+	 * 获取图片位置信息
+	 */
+	function getImgSrc(volumnPercent) {
+
+		if (volumnPercent <= 0) {
+			return "img/oilCanVolumn/oilcan_0.png";
+		} else if (volumnPercent > 0 && volumnPercent <= 10) {
+			return "img/oilCanVolumn/oilcan_10.png";                                                                       
+		} else if (volumnPercent > 10 && volumnPercent <= 20) {
+			return "img/oilCanVolumn/oilcan_20.png";
+		} else if (volumnPercent > 20 && volumnPercent <= 30) {
+			return "img/oilCanVolumn/oilcan_30.png";
+		} else if (volumnPercent > 30 && volumnPercent <= 40) {
+			return "img/oilCanVolumn/oilcan_40.png";
+		} else if (volumnPercent > 40 && volumnPercent <= 50) {
+			return "img/oilCanVolumn/oilcan_50.png";
+		} else if (volumnPercent > 50 && volumnPercent <= 60) {
+			return "img/oilCanVolumn/oilcan_60.png";
+		} else if (volumnPercent > 60 && volumnPercent <= 70) {
+			return "img/oilCanVolumn/oilcan_70.png";
+		} else if (volumnPercent > 70 && volumnPercent <= 80) {
+			return "img/oilCanVolumn/oilcan_80.png";
+		} else if (volumnPercent > 80 && volumnPercent <= 90) {
+			return "img/oilCanVolumn/oilcan_90.png";
+		} else if (volumnPercent > 90 && volumnPercent < 99) {
+			return "img/oilCanVolumn/oilcan_90.png";
+		} else {
+			return "img/oilCanVolumn/oilcan_100.png";
+		}
+
+	}
+					
+	/**点击图片时，展示单个罐的详细信息，id为groupOilCanList的div中内容情况，只展示单管*/
+	function toSingleOilCanDetail(oilCanName){
+		
+		//$("#groupOilCanList").html("");
+		
+		//查询详情并展示，因为#号作为特殊字符，所以需要进行转换一下。
+		var oilCanDeailRequest="oilCanName="+encodeURIComponent(oilCanName);
+		
+		$.ajax({
+			type : "GET",
+			url : "../../user/oil/getOilCanDetail",
+			timeout : 20000,
+			contentType : "application/x-www-form-urlencoded",
+			data : oilCanDeailRequest,
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				switch (data.retCode) {
+					case 200:
+						var str = '';
+						var volumnPercent = 0;
+						var imgSrc;
+						item=data.detail;
+						volumnPercent = (item.liquidLevel / item.oilCanVolumn).toFixed(3) * 100;
+						imgSrc = getImgSrc(volumnPercent);
+
+						str += "<div class='col-md-9'>"
+							+ "<div class='panel panel-default'>"
+							+ "<div class='panel-body'>"
+							+ "<table class='table table-bordered table-hover'>"
+							+ "<tbody>" 
+							+ "<tr>"
+								
+								+ "<th>罐号</th>"
+								+ "<td colspan='2' align='center'><font color='red'>"
+								+ item.oilCanName
+								+ "</font></td>"
+								
+								+ "<th>油品</th>"
+								+ "<td colspan='2' align='center'><font color='red'>"
+								+ item.oilProductName
+								+ "</font></td>"
+								
+								+ "<th>更新时间</th>"
+								+ "<td colspan='2' align='center'>"
+								+ item.updateTime
+								+ "</td>"
+								
+							+ "</tr>"
+							+ "<tr>"
+								+ "<td rowspan='10' colspan='6' align='center'>"
+								+ "<img onclick='toSingleOilCanDetail(\""+item.oilCanName+"\")' src='" + imgSrc + "'>"
+								+ "</td>"
+								+ "<th>流速(升/分)</th>"
+								+ "<td>"
+								+ item.liquidSpeed
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>液位百分比%</th>"
+								+ "<td>"
+								+ item.netOilCapacity
+								+ "升</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>体积百分比%</th>"
+								+ "<td>"
+								+ item.waterLevel
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>净油体积(升)</th>"
+								+ "<td>"
+								+ item.shiTemperate
+							+ "<tr>"
+								+ "<th>标准体积(升)</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>水体积(升)</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>油水总体积(升)</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>空容积(升)</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>报警状态</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<th>储罐状态</th>"
+								+ "<td>"
+								+ item.oilCanStatus
+								+ "</td>"
+							+ "</tr>"
+							+ "<tr>"
+								+ "<td colspan='6' align='center'>"
+								+ "已用容量"
+								+ volumnPercent
+								+ "%"
+								+ "<td colspan='2' align='center'>"
+								/* + "<input id='startInputOilCheckbox' onclick='startInputOil()' type='checkbox'><span>启动进油</span>" */
+								+ "<a class='btn btn-primary' onclick='javascript:startInputOil()'>启动进油</a>"
+								+ "</td>"
+							+ "</tr>"
+							+ "</tbody>"
+							+ "</table>"
+							+ "</div>"
+							+ "</div>" 
+							+ "</div>";
+
+							
+						str += "<div class='col-md-3'>"
+							+ "<div class='panel panel-default'>"
+							+ "<div class='panel-body'>"
+							+ "<table class='table table-bordered table-hover'>"
+							+ "<tbody>"
+							/* 起始工况 */
+							+"<tr>"
+								+"<th colspan='2' align='center'><font color='red'>起始工况</font></th>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>起始时间</th>"
+								+"<td>"+item.startTime+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>起始液位</th>"
+								+"<td>"+item.startLiquidLevel+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>起始水位</th>"
+								+"<td>"+item.startWaterLevel+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>起始温度</th>"
+								+"<td>"+item.startAvergeTemperate+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>起始体积</th>"
+								+"<td>"+item.startStardardCapacity+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>起始V20</th>"
+								+"<td>"+item.startV20+"</td>"
+							+"</tr>"
+							/* 结束工况 */
+							+"<tr>"
+								+"<th colspan='2' align='center'><font color='red'>结束工况</font></th>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>终止时间</th>"
+								+"<td>"+item.endTime+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>终止液位</th>"
+								+"<td>"+item.endLiquidLevel+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>终止水位</th>"
+								+"<td>"+item.endWaterLevel+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>终止温度</th>"
+								+"<td>"+item.endAvergeTemperate+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>终止体积</th>"
+								+"<td>"+item.endStardardCapacity+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>终止V20</th>"
+								+"<td>"+item.endV20+"</td>"
+							+"</tr>"
+							/*收发状况*/
+							+"<tr>"
+								+"<th colspan='2' align='center'><font color='red'>收发状况</font></th>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>罐收体积</th>"
+								+"<td>"+item.guanShouCapacity+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>罐收V20</th>"
+								+"<td>"+item.guanShouV20+"</td>"
+							+"</tr>"
+							+"<tr>"
+								+"<th>预计时间</th>"
+								+"<td>"+item.expectedTime+"</td>"
+							+"</tr>"
+
+							+ "</tbody>"
+							+ "</table>"
+							+ "</div>"
+							+ "</div>"
+							+ "</div>";
+							
+						$("#groupOilCanList").html(str);
+						break;
+					default:
+						alert(data);
+						break;
+				}
+			},
+			error : function(data){
+				alert(data);
+			}
+		});
+	}
+	
+	/*点击开始进油，弹出对应对话框，这里不采用模态框，而是直接展示在底部*/
+	function startInputOil(){
+		$('#updateOilCanModal').modal();
+	}
+	
+</script>

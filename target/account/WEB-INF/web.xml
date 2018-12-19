@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<display-name>Archetype Created Web Application</display-name>
+
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:conf/core/log4j.xml</param-value>
+	</context-param>
+
+	<!--字符编码filter -->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!--跨域请求支持 -->
+	<!-- <filter> <filter-name>CORS</filter-name> <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>CORS</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+
+	<!-- <filter> <filter-name>springSecurityFilterChain</filter-name> <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
+		</filter> <filter-mapping> <filter-name>springSecurityFilterChain</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping> -->
+
+	<!-- <context-param> <param-name>contextConfigLocation</param-name> <param-value> 
+		classpath:conf/core/proaccounting-servlet.xml,classpath:conf/core/proaccounting-security.xml 
+		</param-value> </context-param> -->
+
+	<!--Spring-security后台登陆和用户操作权限验证Filter 开始 -->
+	<!-- <filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+ 	-->
+	<!-- <filter>
+		<filter-name>myUserFilter</filter-name>
+		<filter-class>com.mltech.brite.filter.MyUserFilter</filter-class>    
+	</filter>
+	<filter-mapping>
+		<filter-name>myUserFilter</filter-name>    
+    	<url-pattern>/*</url-pattern>       
+	</filter-mapping> -->
+	
+	<!--后台登陆和用户操作权限验证Filter 结束 -->
+	
+	<!-- <filter>
+        <filter-name>myUserFilter</filter-name>
+        <filter-class>com.mltech.brite.filter.MyUserFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>myUserFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+     -->
+
+	
+	<!-- Shiro Filter权限过滤 -->
+    <filter>
+        <filter-name>shiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>shiroFilter</filter-name>
+        <url-pattern>/*</url-pattern><!-- 必须配置成/*才可以，配置成/没有效果 -->
+    </filter-mapping>
+    <!-- Shiro Filter权限过滤结束 -->
+	
+	<!-- log4j日志 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener
+		</listener-class>
+	</listener>
+  
+	<servlet>
+		<servlet-name>proaccounting</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:conf/core/proaccounting-servlet.xml,classpath:conf/core/proaccounting-shiro.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>proaccounting</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.png</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpeg</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.bmp</url-pattern>
+	</servlet-mapping>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/cloudAdmin/login2.html</location>
+	</error-page>
+	<error-page>
+		<error-code>304</error-code>
+		<location>/cloudAdmin/login2.html</location>
+	</error-page>
+
+</web-app>
